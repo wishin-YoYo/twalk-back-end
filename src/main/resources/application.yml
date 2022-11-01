@@ -1,0 +1,43 @@
+server:
+  port: 8081
+
+spring:
+
+  profiles:
+    active:
+    include: secret
+
+  # Database
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/twalk
+    platform: postgres
+    username: postgres
+    password: qpqpqp0614
+    hikari:
+    minimumIdle: 2
+    maximumPoolSize: 10
+    idleTimeout: 120000
+    connectionTimeout: 300000
+    leakDetectionThreshold: 300000
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+    generate-ddl: true
+
+  servlet.multipart.max-file-size: 500MB
+  servlet.multipart.max-request-size: 500MB
+
+  http.encoding.charset: UTF-8
+  http.encoding.enabled: true
+  http.encoding.force: true
+
+upload:
+
+  image:
+    location: src/main/prodmedia/image/
