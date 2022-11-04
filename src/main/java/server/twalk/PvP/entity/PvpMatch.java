@@ -4,7 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import server.twalk.Common.entity.EntityDate;
-import server.twalk.User.entity.Member;
+import server.twalk.Member.entity.Member;
 
 import javax.persistence.*;
 

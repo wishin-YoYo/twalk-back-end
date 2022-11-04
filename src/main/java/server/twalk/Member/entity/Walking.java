@@ -1,4 +1,4 @@
-package server.twalk.User.entity;
+package server.twalk.Member.entity;
 
 import lombok.*;
 import org.hibernate.annotations.OnDelete;

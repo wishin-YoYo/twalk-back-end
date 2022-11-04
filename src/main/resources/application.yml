@@ -38,6 +38,9 @@ spring:
   http.encoding.force: true
 
 upload:
-
   image:
     location: src/main/prodmedia/image/
+
+default :
+  image :
+    address : "src/main/prodmedia/image/default/default.PNG"
