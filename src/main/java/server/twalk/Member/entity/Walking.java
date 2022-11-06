@@ -7,6 +7,7 @@ import server.twalk.Common.entity.EntityDate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Builder
 @Entity
@@ -34,5 +35,11 @@ public class Walking extends EntityDate {
             nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Member user;
+
+    @Column // polygon 에 찍을 마커 - 위도
+    private List<Float> lat;
+
+    @Column // polygon 에 찍을 마커 - 경도
+    private List<Float> lon;
 
 }

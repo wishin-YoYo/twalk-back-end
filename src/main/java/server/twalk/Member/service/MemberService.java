@@ -3,6 +3,10 @@ package server.twalk.Member.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import server.twalk.Common.entity.response.IdResponse;
+import server.twalk.Member.dto.MemberDto;
+import server.twalk.Member.entity.Member;
+import server.twalk.Member.exception.MemberNotFoundException;
 import server.twalk.Member.repository.MemberRepository;
 
 @RequiredArgsConstructor
@@ -13,8 +17,24 @@ public class MemberService {
     private String defaultImageAddress;
     private final MemberRepository memberRepository;
 
-//    public MemberDto read(Long id){
-//
-//    }
-//
+    // 멤버의 정보를 전달해주는 것
+    public MemberDto read(Long id){
+        Member member = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
+        return MemberDto.from(member);
+    }
+
+    // 멤버의 타인 노출 여부 설정
+    public IdResponse show(Long id){
+        Member member = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
+        member.showMyLocation();
+        return new IdResponse(id);
+    }
+
+    // 멤버의 걷기 상태 여부 설정
+    public IdResponse activated(Long id){
+        Member member = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
+        member.activateMyStatus();
+        return new IdResponse(id);
+    }
+
 }

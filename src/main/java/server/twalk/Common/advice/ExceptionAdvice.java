@@ -1,10 +1,22 @@
 package server.twalk.Common.advice;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import server.twalk.Common.entity.response.Response;
+import server.twalk.Member.exception.MemberNotFoundException;
 
 @RestControllerAdvice
 @Slf4j
 public class ExceptionAdvice {
+
+    @ExceptionHandler(MemberNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Response MemberNotFoundExcpetion(MemberNotFoundException e) {
+        log.info("e = {}", e.getMessage());
+        return Response.failure(404, "멤버가 존재하지 않습니다.");
+    }
 
 }

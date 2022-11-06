@@ -15,12 +15,9 @@ public class Member extends EntityDate {
     // USER INFO
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQUENCE3")
-    @SequenceGenerator(name="SEQUENCE3", sequenceName="SEQUENCE3", allocationSize=1)
+    @SequenceGenerator(name = "SEQUENCE3", sequenceName = "SEQUENCE3", allocationSize = 1)
     @Column(name = "member_id")
     private Long id;
-
-    @Column(nullable = false, length = 30, unique = true)
-    private String email;
 
     private String password;
 
@@ -33,7 +30,7 @@ public class Member extends EntityDate {
     @Column(nullable = false)
     private boolean showLocation;
 
-    // MY PROFILE
+    // < MY PROFILE >
     @Column
     private String comment;
 
@@ -43,11 +40,31 @@ public class Member extends EntityDate {
     @Column
     private Long totalCalories;
 
-    // PVP PROFILE
+    // < PVP PROFILE >
     @Column
     private Integer wins;
 
     @Column
     private Integer loses;
+
+    // 현재 내 위치 보여주기 설정이 t -> f , f -> t
+    public void showMyLocation() {
+        if (this.showLocation) {
+            this.showLocation = false;
+        } else {
+            this.showLocation = true;
+        }
+    }
+
+    // 현재 내 activated (걷는 중 여부) t -> f , f -> t
+    public void activateMyStatus() {
+        if (this.activated) {
+            this.activated = false;
+        } else {
+            this.activated = true;
+        }
+    }
+
+
 
 }
