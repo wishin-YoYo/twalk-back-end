@@ -37,9 +37,9 @@ public class Walking extends EntityDate {
     private Member user;
 
     @Column // polygon 에 찍을 마커 - 위도
-    private List<Float> lat;
+    private float [] lat;
 
     @Column // polygon 에 찍을 마커 - 경도
-    private List<Float> lon;
+    private float [] lon;
 
 }
