@@ -37,6 +37,11 @@ public class MemberController {
         );
     }
 
+    @GetMapping("/member")
+    @ResponseStatus(HttpStatus.OK)
+    public Response readAll() {
+        return Response.success(memberService.readAll());
+    }
 
 
 }
