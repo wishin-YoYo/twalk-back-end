@@ -36,6 +36,9 @@ public class MemberDto {
                 .wins(member.getWins())
                 .loses(member.getLoses())
                 .winning_rate(
+                        member.getWins()+member.getLoses()==0?
+                                "0"
+                                :
                         String.format(
                         "%.3f", member.getWins()/(member.getWins()+member.getLoses())
                         )
