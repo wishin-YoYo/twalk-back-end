@@ -37,6 +37,11 @@ spring:
   http.encoding.enabled: true
   http.encoding.force: true
 
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
 upload:
   image:
     location: src/main/prodmedia/image/
