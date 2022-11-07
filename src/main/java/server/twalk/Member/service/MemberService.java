@@ -9,6 +9,9 @@ import server.twalk.Member.entity.Member;
 import server.twalk.Member.exception.MemberNotFoundException;
 import server.twalk.Member.repository.MemberRepository;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Service
 public class MemberService {
@@ -35,6 +38,12 @@ public class MemberService {
         Member member = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
         member.activateMyStatus();
         return new IdResponse(id);
+    }
+
+    public List<MemberDto> readAll(){
+        return memberRepository.findAll().stream().map(
+                i -> MemberDto.from(i)
+        ).collect(Collectors.toList());
     }
 
 }
