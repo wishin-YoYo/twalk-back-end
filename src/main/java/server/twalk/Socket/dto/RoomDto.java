@@ -16,6 +16,7 @@ import server.twalk.Socket.service.SocketService;
 import java.text.ParseException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @Getter
 @Transactional
@@ -36,7 +37,8 @@ public class RoomDto {
             SocketService socketService,
             MemberRepository memberRepository,
             MemberService memberService
-    ) throws ParseException {
+    ) throws ParseException, InterruptedException {
+
 
         if (chatMessage != null && chatMessage.getMemberId() != null) {
             Member member = memberRepository.findById(chatMessage.getMemberId()).orElseThrow(MemberNotFoundException::new);
@@ -49,13 +51,17 @@ public class RoomDto {
         // 메시지 제작 - 내 주변에 있는 멤버 리스트 json 형태 문자열로 변환해서 줌
         Gson gson = new Gson();
 
-        chatMessage.setMessage(
-                gson.toJson(memberService.readAround(chatMessage.getMemberId()))
-        );
+        int time = 0;
+        while(time < 10) {
+            chatMessage.setMessage(
+                    gson.toJson(memberService.readAround(chatMessage.getMemberId()))
+            );
 
-        sendMessage(chatMessage, socketService);
 
-
+            sendMessage(chatMessage, socketService);
+        }
+        TimeUnit.SECONDS.sleep(2);
+        time+=1;
     }
 
     @Transactional
