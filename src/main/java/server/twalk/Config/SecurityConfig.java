@@ -29,10 +29,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/ur1", "/ur2", "/ur3").permitAll()
-                .antMatchers(HttpMethod.GET, "/ur1", "/ur2", "/ur3").permitAll()
-                .antMatchers(HttpMethod.GET, "/ur1", "/ur2", "/ur3").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/ur1", "/ur2", "/ur3").permitAll();
+                .antMatchers(HttpMethod.POST,  "/**").permitAll()
+                .antMatchers(HttpMethod.GET,  "/**").permitAll()
+                .antMatchers(HttpMethod.PUT, "/**").permitAll()
+                .antMatchers(HttpMethod.DELETE,  "/**").permitAll()
+                ;
 
     }
 }

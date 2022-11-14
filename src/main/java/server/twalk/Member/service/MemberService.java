@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import server.twalk.Common.entity.response.IdResponse;
 import server.twalk.Member.dto.MemberDto;
 import server.twalk.Member.entity.Member;
-import server.twalk.Member.entity.Walking;
 import server.twalk.Member.exception.MemberNotFoundException;
 import server.twalk.Member.repository.MemberRepository;
 import server.twalk.Walking.repository.WalkingRepository;
