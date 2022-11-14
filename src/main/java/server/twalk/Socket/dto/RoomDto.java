@@ -56,12 +56,11 @@ public class RoomDto {
             chatMessage.setMessage(
                     gson.toJson(memberService.readAround(chatMessage.getMemberId()))
             );
-
-
             sendMessage(chatMessage, socketService);
+            TimeUnit.SECONDS.sleep(3);
+            time+=1;
         }
-        TimeUnit.SECONDS.sleep(2);
-        time+=1;
+
     }
 
     @Transactional
