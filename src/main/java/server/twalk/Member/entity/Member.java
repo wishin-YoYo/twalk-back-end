@@ -47,6 +47,12 @@ public class Member extends EntityDate {
     @Column
     private Integer loses;
 
+    @Column // polygon 에 찍을 마커 - 위도
+    private double lat = 0;
+
+    @Column // polygon 에 찍을 마커 - 경도
+    private double lon = 0;
+
     // 현재 내 위치 보여주기 설정이 t -> f , f -> t
     public void showMyLocation() {
         if (this.showLocation) {
@@ -64,7 +70,5 @@ public class Member extends EntityDate {
             this.activated = true;
         }
     }
-
-
 
 }

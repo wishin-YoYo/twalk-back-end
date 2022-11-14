@@ -42,4 +42,5 @@ public class Walking extends EntityDate {
     @Column // polygon 에 찍을 마커 - 경도
     private float [] lon;
 
+
 }
