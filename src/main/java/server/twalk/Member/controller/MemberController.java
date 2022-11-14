@@ -13,7 +13,6 @@ import server.twalk.Member.service.MemberService;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-//@CrossOrigin(origins = "")
 public class MemberController {
     private final MemberService memberService;
 
@@ -23,7 +22,6 @@ public class MemberController {
     public Response show(
             @PathVariable Long id
     ) {
-
         return Response.success(
                 memberService.show(id)
         );
@@ -47,5 +45,14 @@ public class MemberController {
         return Response.success(memberService.readAll());
     }
 
+    // 내 주변 사용자 데려오기
+    @ApiOperation(value = "주변 걷기 사용자 get ", notes = "주변에 함께 걸을 수 있는 후보의 사람들 목록 데려오기")
+    @GetMapping("/member-around/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Response readAroundMembers(
+            @PathVariable Long id
+    ) {
+        return Response.success(memberService.readAround(id));
+    }
 
 }
