@@ -1,13 +1,13 @@
-package server.twalk.Member.entity;
+package server.twalk.Walking.entity;
 
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import server.twalk.Common.entity.EntityDate;
+import server.twalk.Member.entity.Member;
+import server.twalk.PvP.entity.Status;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.util.List;
 
 @Builder
 @Entity
@@ -24,9 +24,6 @@ public class Walking extends EntityDate {
     private Long id;
 
     @Column
-    private LocalDate nowDate;
-
-    @Column
     private Integer walkingCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -36,11 +33,24 @@ public class Walking extends EntityDate {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Member user;
 
-    @Column // polygon 에 찍을 마커 - 위도
-    private float [] lat;
+    @Column // polygon 에 찍을 마커 - 위도, 경도
+    private LatLonPair latLonPair = new LatLonPair();
 
-    @Column // polygon 에 찍을 마커 - 경도
-    private float [] lon;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, unique = true  )
+    private Status status;
 
+    private double distance;
 
+    public void addLatLon(double lat_ele, double lon_ele){
+        latLonPair.addLatLon(lat_ele, lon_ele);
+    }
+
+    public void updateStatus(Status status){
+        this.status = status;
+    }
+
+    public void addDistance(double distance){
+        this.distance+=distance;
+    }
 }

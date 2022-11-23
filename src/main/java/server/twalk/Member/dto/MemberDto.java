@@ -17,8 +17,8 @@ public class MemberDto {
     private boolean activated;
     private boolean showLocation;
     private String comment;
-    private Long totalDistance;
-    private Long totalCalories;
+    private double totalDistance;
+    private double totalCalories;
     private Integer wins;
     private Integer loses;
     private String winning_rate;

@@ -2,7 +2,7 @@ package server.twalk.Walking.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import server.twalk.Member.entity.Member;
-import server.twalk.Member.entity.Walking;
+import server.twalk.Walking.entity.Walking;
 
 import java.util.List;
 

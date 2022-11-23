@@ -35,10 +35,10 @@ public class Member extends EntityDate {
     private String comment;
 
     @Column
-    private Long totalDistance;
+    private double totalDistance = 0 ;
 
     @Column
-    private Long totalCalories;
+    private double totalCalories = 0 ;
 
     // < PVP PROFILE >
     @Column
@@ -69,6 +69,11 @@ public class Member extends EntityDate {
         } else {
             this.activated = true;
         }
+    }
+
+    public void addTotalDistanceAndCalories(double distance){
+        this.totalDistance+=distance;
+        this.totalCalories+=distance*0.8;
     }
 
 }
