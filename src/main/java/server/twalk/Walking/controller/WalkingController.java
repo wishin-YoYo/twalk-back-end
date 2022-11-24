@@ -31,7 +31,7 @@ public class WalkingController {
         );
     }
 
-    @ApiOperation(value = "사용자 걷기 update", notes = "사용자 걷기 위도, 경도 업데이트")
+    @ApiOperation(value = "사용자 걷기 update", notes = "사용자 걷기 위도, 경도 업데이트 \n * walking id 주시면 됩니다")
     @PostMapping("/walking/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Response update(
@@ -44,7 +44,7 @@ public class WalkingController {
         );
     }
 
-    @ApiOperation(value = "사용자 걷기 종료", notes = "사용자 걷기 종료")
+    @ApiOperation(value = "사용자 걷기 종료", notes = "사용자 걷기 종료 \n * walking id 주시면 됩니다")
     @PostMapping("/walking/end/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Response end(
@@ -54,6 +54,29 @@ public class WalkingController {
     ) {
         return Response.success(
                 walkingService.end(req, id)
+        );
+    }
+
+    @ApiOperation(value = "걷기 하나 데리고오기", notes = "걷기 데리고오기 \n * walking id 주시면 됩니다")
+    @GetMapping("/walking/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Response read(
+            @PathVariable Long id
+    ) {
+        return Response.success(
+                walkingService.read(id)
+        );
+    }
+
+
+    @ApiOperation(value = "내 모든 걷기 기록 데리고오기", notes = "내 모든 걷기 기록 데리고오기 \n * member id 주시면 됩니다")
+    @GetMapping("/walking-history/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Response readMineAll(
+            @PathVariable Long id
+    ) {
+        return Response.success(
+                walkingService.readMineAll(id)
         );
     }
 
