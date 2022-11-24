@@ -20,7 +20,7 @@ public class JalkingController {
 
     private final JalkingService jalkingService;
 
-    @ApiOperation(value = "jalking 생성", notes = "join walking 객체 생성 \n requesterId, receiverId 보내주세요")
+    @ApiOperation(value = "jalking 생성", notes = "join walking 객체 생성 \n * requesterId, receiverId 보내주세요")
     @PostMapping("/join-walking")
     @ResponseStatus(HttpStatus.CREATED)
     public Response create(
@@ -82,14 +82,14 @@ public class JalkingController {
         return Response.success(jalkingService.readAll());
     }
 
-    @ApiOperation(value = "내가 요청한 jalking request", notes = "내가 요청한 jalking request들 조회 \n requesterId 만 보내주세요")
+    @ApiOperation(value = "내가 요청한 jalking request", notes = "내가 요청한 jalking request들 조회 \n * requesterId 만 보내주세요")
     @GetMapping("/jalking/request")
     @ResponseStatus(HttpStatus.OK)
     public Response readRequest(JalkingReq req) {
         return Response.success(jalkingService.readRequestJalkings(req));
     }
 
-    @ApiOperation(value = "내게 요청 들어온 jalking", notes = "내게 요청 들어온 jalking 조회 \n receiverId 만 보내주세요")
+    @ApiOperation(value = "내게 요청 들어온 jalking", notes = "내게 요청 들어온 jalking 조회 \n * receiverId 만 보내주세요")
     @GetMapping("/jalking/receive")
     @ResponseStatus(HttpStatus.OK)
     public Response readReceived(JalkingReq req) {

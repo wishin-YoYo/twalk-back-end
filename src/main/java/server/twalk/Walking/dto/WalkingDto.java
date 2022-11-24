@@ -5,9 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import server.twalk.Member.dto.MemberDto;
+import server.twalk.Walking.entity.Walking;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
@@ -16,13 +18,11 @@ public class WalkingDto {
 
     private Long id;
 
-    private LocalDate nowDate;
-
     private Integer walkingCount;
 
     private MemberDto user;
 
-    private LatLonPairList list;
+    private List<LatLonPairDto> list;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     LocalDateTime createdAt;
@@ -30,5 +30,27 @@ public class WalkingDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     LocalDateTime updatedAt;
 
+    public static WalkingDto toDto(Walking walking){
+        return new WalkingDto(
+                walking.getId(),
+                walking.getWalkingCount(),
+                MemberDto.from(walking.getMember()),
+                LatLonPairDto.toDtoList(walking.getLatLonPair()),
+                walking.getCreatedAt(),
+                walking.getModifiedAt()
+        );
+    }
 
+    public static List<WalkingDto> toDtoList(List<Walking>  walkings){
+        return walkings.stream().map(
+                walking -> new WalkingDto(
+                        walking.getId(),
+                        walking.getWalkingCount(),
+                        MemberDto.from(walking.getMember()),
+                        LatLonPairDto.toDtoList(walking.getLatLonPair()),
+                        walking.getCreatedAt(),
+                        walking.getModifiedAt()
+                )
+        ).collect(Collectors.toList());
+    }
 }

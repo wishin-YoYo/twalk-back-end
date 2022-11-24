@@ -24,6 +24,8 @@ public class JalkingDto {
 
     String content;
 
+    private List<LatLonPairDto> list;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     LocalDateTime createdAt;
 
@@ -36,6 +38,7 @@ public class JalkingDto {
                 MemberDto.from(jalking.getRequester()),
                 MemberDto.from(jalking.getReceiver()),
                 jalking.getContent(),
+                LatLonPairDto.toDtoList(jalking.getLatLonPair()),
                 jalking.getCreatedAt(),
                 jalking.getModifiedAt()
         );
@@ -48,6 +51,7 @@ public class JalkingDto {
                         MemberDto.from(jalking.getRequester()),
                         MemberDto.from(jalking.getReceiver()),
                         jalking.getContent(),
+                        LatLonPairDto.toDtoList(jalking.getLatLonPair()),
                         jalking.getCreatedAt(),
                         jalking.getModifiedAt()
                 )

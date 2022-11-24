@@ -10,12 +10,15 @@ import server.twalk.Member.exception.MemberNotFoundException;
 import server.twalk.Member.repository.MemberRepository;
 import server.twalk.PvP.entity.StatusType;
 import server.twalk.PvP.repository.StatusRepository;
+import server.twalk.Walking.dto.WalkingDto;
 import server.twalk.Walking.dto.request.WalkingReq;
 import server.twalk.Walking.entity.LatLonPair;
 import server.twalk.Walking.entity.Walking;
 import server.twalk.Walking.exception.StatusNotFoundException;
 import server.twalk.Walking.exception.WalkingNotFoundException;
 import server.twalk.Walking.repository.WalkingRepository;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -54,6 +57,23 @@ public class WalkingService {
         // walking.addLatLon(req.getLat(), req.getLon());
 
         return new IdResponse(walking.getId());
+    }
+
+    @Transactional
+    public WalkingDto read( Long walkingId ) {
+
+        Walking walking = walkingRepository.findById(walkingId).orElseThrow(WalkingNotFoundException::new);
+
+        return WalkingDto.toDto(walking);
+    }
+
+    // 나의 걷기 기록 모두
+    @Transactional
+    public List<WalkingDto> readMineAll( Long memberId ) {
+        Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
+        List<Walking> walks = walkingRepository.findByMemberOrderByIdDesc(member);
+
+        return WalkingDto.toDtoList(walks);
     }
 
     @Transactional
