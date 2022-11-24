@@ -20,9 +20,11 @@ public class PvpMatch extends EntityDate {
     @SequenceGenerator(name="SEQUENCE3", sequenceName="SEQUENCE3", allocationSize=1)
     @Column(name = "pvp_id")
     private Long id;
+
     @OneToOne
     @JoinColumn(name = "pvp_mode")
     private PvpMode pvpMode;
+
     @OneToOne
     @JoinColumn(name = "status")
     private Status status;

@@ -3,11 +3,17 @@ package server.twalk.Member.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import server.twalk.Common.entity.response.IdResponse;
 import server.twalk.Member.dto.MemberDto;
 import server.twalk.Member.entity.Member;
 import server.twalk.Member.exception.MemberNotFoundException;
 import server.twalk.Member.repository.MemberRepository;
+import server.twalk.Walking.dto.LatLonPairDto;
+import server.twalk.Walking.dto.WalkingDto;
+import server.twalk.Walking.dto.request.WalkingReq;
+import server.twalk.Walking.entity.LatLonPair;
+import server.twalk.Walking.entity.Walking;
 import server.twalk.Walking.repository.WalkingRepository;
 import server.twalk.Walking.service.WalkingCommonService;
 
@@ -53,8 +59,8 @@ public class MemberService {
     public List<MemberDto> readAround(Long targetId){
 
         Member targetMember = memberRepository.findById(targetId).orElseThrow(MemberNotFoundException::new);
-        double targetLon = targetMember.getLon();
-        double targetLat = targetMember.getLat();
+        double targetLon = targetMember.getLatLonPair().getLon();
+        double targetLat = targetMember.getLatLonPair().getLat();
 
         List<Member> allMember = memberRepository.findAll();
         List<Member> membersAround = new ArrayList<>();
@@ -65,8 +71,8 @@ public class MemberService {
             if(WalkingCommonService.distance(
                     targetLon,
                     targetLat,
-                    cmpMem.getLon(),
-                    cmpMem.getLat(),
+                    cmpMem.getLatLonPair().getLon(),
+                    cmpMem.getLatLonPair().getLat(),
                     "meter"
             )<1000){
                 membersAround.add(cmpMem);
@@ -76,6 +82,33 @@ public class MemberService {
         return membersAround.stream().map(
                 MemberDto::from
         ).collect(Collectors.toList());
+    }
+
+    // 현재 내 위치 주는 것
+    public LatLonPairDto myLocation(Long memberId){
+
+        Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
+        return LatLonPairDto.toDto(member.getLatLonPair());
+    }
+
+
+    // 나의 걷기 기록 모두
+    @Transactional
+    public List<WalkingDto> readMineAll(Long memberId ) {
+        Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
+        List<Walking> walks = walkingRepository.findByMemberOrderByIdDesc(member);
+
+        return WalkingDto.toDtoList(walks);
+    }
+
+    @Transactional
+    public IdResponse updateMyLocation(Long memberId, WalkingReq req) {
+
+        Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
+        member.updateMyLocation(new LatLonPair(req.getLat(), req.getLon()));
+
+        return new IdResponse(memberId);
+
     }
 
 }

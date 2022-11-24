@@ -68,16 +68,4 @@ public class WalkingController {
         );
     }
 
-
-    @ApiOperation(value = "내 모든 걷기 기록 데리고오기", notes = "내 모든 걷기 기록 데리고오기 \n * member id 주시면 됩니다")
-    @GetMapping("/walking-history/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public Response readMineAll(
-            @PathVariable Long id
-    ) {
-        return Response.success(
-                walkingService.readMineAll(id)
-        );
-    }
-
 }
