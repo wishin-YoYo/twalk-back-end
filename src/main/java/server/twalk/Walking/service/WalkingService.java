@@ -10,7 +10,7 @@ import server.twalk.Member.exception.MemberNotFoundException;
 import server.twalk.Member.repository.MemberRepository;
 import server.twalk.PvP.entity.StatusType;
 import server.twalk.PvP.repository.StatusRepository;
-import server.twalk.Walking.dto.WalkingReq;
+import server.twalk.Walking.dto.request.WalkingReq;
 import server.twalk.Walking.entity.Walking;
 import server.twalk.Walking.exception.StatusNotFoundException;
 import server.twalk.Walking.exception.WalkingNotFoundException;
@@ -32,14 +32,14 @@ public class WalkingService {
 
         Walking walking = walkingRepository.save(
                 Walking.builder()
-                        .status(statusRepository.findByStatusType(StatusType.진행).orElseThrow(StatusNotFoundException::new))
+                        .status(statusRepository.findByStatusType(StatusType.ONGOING).orElseThrow(StatusNotFoundException::new))
                         .walkingCount(0)
-                        .user(member)
+                        .member(member)
                         .build()
         );
 
         // 최초의 lat, lon
-        walking.addLatLon(req.getLat(), req.getLon());
+        // walking.addLatLon(req.getLat(), req.getLon());
 
         return new IdResponse(walking.getId());
     }
@@ -50,7 +50,7 @@ public class WalkingService {
         Walking walking = walkingRepository.findById(walkingId).orElseThrow(WalkingNotFoundException::new);
 
         // 추가 이동한 lat, lon
-        walking.addLatLon(req.getLat(), req.getLon());
+        // walking.addLatLon(req.getLat(), req.getLon());
 
         return new IdResponse(walking.getId());
     }
@@ -62,11 +62,11 @@ public class WalkingService {
         Walking walking = walkingRepository.findById(walkingId).orElseThrow(WalkingNotFoundException::new);
 
         // 추가 이동한 lat, lon
-        walking.addLatLon(req.getLat(), req.getLon());
+        //walking.addLatLon(req.getLat(), req.getLon());
         // walking 에 distance 갱신
         walking.addDistance(req.getDistance());
         // 완료료 변경
-        walking.updateStatus(statusRepository.findByStatusType(StatusType.완료).orElseThrow(StatusNotFoundException::new));
+        walking.updateStatus(statusRepository.findByStatusType(StatusType.COMPLETE).orElseThrow(StatusNotFoundException::new));
         // 멤버에게 걸음수 갱신
         member.addTotalDistanceAndCalories(walking.getDistance());
 

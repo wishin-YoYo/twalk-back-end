@@ -30,7 +30,29 @@ public class Jalking extends EntityDate {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Member requester;
 
-    @Column(nullable = false, unique = true  )
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+            name = "receiver_id",
+            nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Member receiver;
+
+    @Lob
+    @Column
+    private String content;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+            name = "status_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Status status;
 
+    // 만나기로 한 위치
+
+    // 함께 걸은 거리
+
+
+    public void setStatus(Status status){
+        this.status = status;
+    }
 }

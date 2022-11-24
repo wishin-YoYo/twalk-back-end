@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface WalkingRepository extends JpaRepository<Walking, Long> {
 
-    List<Walking> findByUserOrderByIdDesc(Member member) ;
+    List<Walking> findByMemberOrderByIdDesc(Member member) ;
 
 }

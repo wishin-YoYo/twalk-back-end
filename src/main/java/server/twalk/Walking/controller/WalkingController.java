@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import server.twalk.Common.entity.response.Response;
-import server.twalk.Walking.dto.WalkingReq;
+import server.twalk.Walking.dto.request.WalkingReq;
 import server.twalk.Walking.service.WalkingService;
 
 import javax.validation.Valid;

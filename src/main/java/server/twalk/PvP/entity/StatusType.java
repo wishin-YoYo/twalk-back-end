@@ -1,14 +1,17 @@
 package server.twalk.PvP.entity;
 
 public enum StatusType {
+
     WAITING,
     MATCHED,
     FINISHED,
     FAILED,
 
-    ///////////////
-    승인, // jalking 진행 완료
-    취소, //  jalking 주인이 취소
-    진행, // jalking 멤버 모집 진행 중 / walking 진행
-    완료 // walking 완료
+    // jalking 관련 상태
+
+    APPROVED, // jalking 완료
+    CANCEL, // jalking 주인이 취소
+    REJECTED, // jalking 취소
+    ONGOING, // jalking 멤버 모집 ONGOING 중 / walking ONGOING
+    COMPLETE  // walking 완료
 }

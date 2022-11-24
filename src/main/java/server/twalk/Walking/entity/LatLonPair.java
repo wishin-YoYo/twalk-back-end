@@ -1,22 +1,26 @@
 package server.twalk.Walking.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Entity
+@Getter
+@Table(name="latLonPair")
 @AllArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class LatLonPair {
 
-    private List<Double> lat = new ArrayList<>();
-    private List<Double> lon = new ArrayList<>();
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQUENCE3")
+    @SequenceGenerator(name="SEQUENCE3", sequenceName="SEQUENCE3", allocationSize=1)
+    @Column(name = "latlon_id")
+    private Long id;
 
-    public void addLatLon(double lat, double lon){
-        this.lat.add(lat);
-        this.lon.add(lon);
-    }
+    private Double lat;
+
+    private Double lon;
+
 }

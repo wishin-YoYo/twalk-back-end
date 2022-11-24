@@ -1,4 +1,4 @@
-package server.twalk.Walking.dto;
+package server.twalk.Walking.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
