@@ -8,6 +8,8 @@ import server.twalk.Member.entity.Member;
 import server.twalk.PvP.entity.Status;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @Entity
@@ -50,9 +52,15 @@ public class Jalking extends EntityDate {
     // 만나기로 한 위치
 
     // 함께 걸은 거리
-
+    @OneToMany(mappedBy = "jalking", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<LatLonPair> latLonPair = new ArrayList<>();
 
     public void setStatus(Status status){
         this.status = status;
     }
+
+    public void addLatLon(LatLonPair latLonPair){
+        this.latLonPair.add(latLonPair);
+    }
+
 }

@@ -11,6 +11,7 @@ import server.twalk.Member.repository.MemberRepository;
 import server.twalk.PvP.entity.StatusType;
 import server.twalk.PvP.repository.StatusRepository;
 import server.twalk.Walking.dto.request.WalkingReq;
+import server.twalk.Walking.entity.LatLonPair;
 import server.twalk.Walking.entity.Walking;
 import server.twalk.Walking.exception.StatusNotFoundException;
 import server.twalk.Walking.exception.WalkingNotFoundException;
@@ -39,7 +40,7 @@ public class WalkingService {
         );
 
         // 최초의 lat, lon
-        // walking.addLatLon(req.getLat(), req.getLon());
+        walking.addLatLon(new LatLonPair(req.getLat(), req.getLon()));
 
         return new IdResponse(walking.getId());
     }
