@@ -49,9 +49,6 @@ public class Jalking extends EntityDate {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Status status;
 
-    // 만나기로 한 위치
-
-
     // 함께 걸은 거리
     @OneToMany(mappedBy = "jalking", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LatLonPair> latLonPair = new ArrayList<>();
@@ -63,5 +60,6 @@ public class Jalking extends EntityDate {
     public void addLatLon(LatLonPair latLonPair){
         this.latLonPair.add(latLonPair);
     }
+
 
 }

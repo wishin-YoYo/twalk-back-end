@@ -77,7 +77,7 @@ public class MemberController {
         return Response.success(memberService.myLocation(id));
     }
 
-    // 내 현재 위치 데려오기
+    // 내 현재 위치 갱신
     @ApiOperation(value = "내 현재 위치 update ", notes = "내 현재 위치 표시하기 \n * member id 를 주시면 됩니다")
     @PutMapping("/member-location/{id}")
     @ResponseStatus(HttpStatus.OK)
