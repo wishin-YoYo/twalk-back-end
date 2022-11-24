@@ -37,10 +37,10 @@ public class Member extends EntityDate {
     private String comment;
 
     @Column
-    private double totalDistance = 0 ;
+    private double totalDistance = 0;
 
     @Column
-    private double totalCalories = 0 ;
+    private double totalCalories = 0;
 
     // < PVP PROFILE >
     @Column
@@ -49,6 +49,7 @@ public class Member extends EntityDate {
     @Column
     private Integer loses;
 
+    @OneToOne // 사용자 현재 위치
     private LatLonPair latLonPair;
 
     // 현재 내 위치 보여주기 설정이 t -> f , f -> t
