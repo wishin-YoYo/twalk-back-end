@@ -91,7 +91,6 @@ public class MemberService {
         return LatLonPairDto.toDto(member.getLatLonPair());
     }
 
-
     // 나의 걷기 기록 모두
     @Transactional
     public List<WalkingDto> readMineAll(Long memberId ) {
