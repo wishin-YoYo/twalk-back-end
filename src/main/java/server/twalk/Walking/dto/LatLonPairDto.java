@@ -15,6 +15,13 @@ public class LatLonPairDto {
     double lat;
     double lon;
 
+    public static LatLonPairDto toDto (LatLonPair latLonPair){
+        return new LatLonPairDto(
+                        latLonPair.getLat(),
+                        latLonPair.getLon()
+                );
+    }
+
     public static List<LatLonPairDto> toDtoList (List<LatLonPair> list){
         return list.stream().map(
                 latLonPair -> new LatLonPairDto(

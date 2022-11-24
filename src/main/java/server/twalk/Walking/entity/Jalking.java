@@ -51,6 +51,7 @@ public class Jalking extends EntityDate {
 
     // 만나기로 한 위치
 
+
     // 함께 걸은 거리
     @OneToMany(mappedBy = "jalking", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LatLonPair> latLonPair = new ArrayList<>();

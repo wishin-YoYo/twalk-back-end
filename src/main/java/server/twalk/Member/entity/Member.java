@@ -2,6 +2,8 @@ package server.twalk.Member.entity;
 
 import lombok.*;
 import server.twalk.Common.entity.EntityDate;
+import server.twalk.Walking.entity.LatLonPair;
+
 import javax.persistence.*;
 
 @Builder
@@ -47,11 +49,7 @@ public class Member extends EntityDate {
     @Column
     private Integer loses;
 
-    @Column // polygon 에 찍을 마커 - 위도
-    private double lat = 0;
-
-    @Column // polygon 에 찍을 마커 - 경도
-    private double lon = 0;
+    private LatLonPair latLonPair;
 
     // 현재 내 위치 보여주기 설정이 t -> f , f -> t
     public void showMyLocation() {
@@ -60,6 +58,11 @@ public class Member extends EntityDate {
         } else {
             this.showLocation = true;
         }
+    }
+
+    // 현재 내 위치 업데이트
+    public void updateMyLocation(LatLonPair latLonPair) {
+        this.latLonPair = latLonPair;
     }
 
     // 현재 내 activated (걷는 중 여부) t -> f , f -> t

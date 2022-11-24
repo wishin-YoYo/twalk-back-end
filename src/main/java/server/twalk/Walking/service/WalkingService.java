@@ -67,15 +67,6 @@ public class WalkingService {
         return WalkingDto.toDto(walking);
     }
 
-    // 나의 걷기 기록 모두
-    @Transactional
-    public List<WalkingDto> readMineAll( Long memberId ) {
-        Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
-        List<Walking> walks = walkingRepository.findByMemberOrderByIdDesc(member);
-
-        return WalkingDto.toDtoList(walks);
-    }
-
     @Transactional
     public IdResponse end(WalkingReq req, Long walkingId ) {
 

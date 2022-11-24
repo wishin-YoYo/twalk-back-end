@@ -8,6 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import server.twalk.Common.entity.response.Response;
 import server.twalk.Member.service.MemberService;
+import server.twalk.Walking.dto.request.WalkingReq;
+
+import javax.validation.Valid;
 
 @Api(tags = {"Member"})
 @RestController
@@ -62,6 +65,39 @@ public class MemberController {
             @PathVariable Long id
     ) {
         return Response.success(memberService.readAround(id));
+    }
+
+    // 내 현재 위치 데려오기
+    @ApiOperation(value = "내 위치 get ", notes = "내 위치 데려오기 \n * member id 를 주시면 됩니다")
+    @GetMapping("/member-location/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Response myLocation(
+            @PathVariable Long id
+    ) {
+        return Response.success(memberService.myLocation(id));
+    }
+
+    // 내 현재 위치 데려오기
+    @ApiOperation(value = "내 현재 위치 update ", notes = "내 현재 위치 표시하기 \n * member id 를 주시면 됩니다")
+    @PutMapping("/member-location/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Response updateMyLocation(
+            @PathVariable Long id,
+            @Valid @ModelAttribute
+                    WalkingReq req
+    ) {
+        return Response.success(memberService.updateMyLocation(id, req));
+    }
+
+    @ApiOperation(value = "내 모든 걷기 기록 데리고오기", notes = "내 모든 걷기 기록 데리고오기 \n * member id 주시면 됩니다")
+    @GetMapping("/member-history/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Response readMineAll(
+            @PathVariable Long id
+    ) {
+        return Response.success(
+                memberService.readMineAll(id)
+        );
     }
 
 }
