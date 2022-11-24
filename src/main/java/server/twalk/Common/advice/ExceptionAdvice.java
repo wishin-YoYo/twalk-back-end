@@ -9,6 +9,8 @@ import server.twalk.Common.entity.response.Response;
 import server.twalk.Member.exception.MemberNotFoundException;
 import server.twalk.Member.exception.MemberNotWalkingException;
 import server.twalk.Socket.exception.SocketRoomRefreshException;
+import server.twalk.Walking.exception.JalkingNotFoundException;
+import server.twalk.Walking.exception.WalkingNotFoundException;
 
 @RestControllerAdvice
 @Slf4j
@@ -18,14 +20,14 @@ public class ExceptionAdvice {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Response MemberNotFoundExcpetion(MemberNotFoundException e) {
         log.info("e = {}", e.getMessage());
-        return Response.failure(404, "멤버가 존재하지 않습니다.");
+        return Response.failure(404, "Member not found.");
     }
 
     @ExceptionHandler(MemberNotWalkingException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Response MemberNotWalkingException(MemberNotWalkingException e) {
         log.info("e = {}", e.getMessage());
-        return Response.failure(400, "멤버의 위치 정보가 존재하지 않습니다.");
+        return Response.failure(400, "Member's location info doesn't exist.");
     }
 
     @ExceptionHandler(SocketRoomRefreshException.class)
@@ -33,6 +35,20 @@ public class ExceptionAdvice {
     public Response SocketRoomRefreshException(SocketRoomRefreshException e) {
         log.info("e = {}", e.getMessage());
         return Response.failure(404, "Socket Room Expired, Need Refresh");
+    }
+
+    @ExceptionHandler(WalkingNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Response WalkingNotFoundException(WalkingNotFoundException e) {
+        log.info("e = {}", e.getMessage());
+        return Response.failure(404, "Walking Not Found ");
+    }
+
+    @ExceptionHandler(JalkingNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Response JalkingNotFoundException(JalkingNotFoundException e) {
+        log.info("e = {}", e.getMessage());
+        return Response.failure(404, "Jalking Not Found - maybe Canceled Jalking ");
     }
 
 }
