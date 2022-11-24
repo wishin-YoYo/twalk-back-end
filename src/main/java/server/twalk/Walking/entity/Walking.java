@@ -8,6 +8,7 @@ import server.twalk.Member.entity.Member;
 import server.twalk.PvP.entity.Status;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Builder
@@ -34,8 +35,8 @@ public class Walking extends EntityDate {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Member member;
 
-    @OneToOne(targetEntity = LatLonPair.class) // polygon 에 찍을 마커 - 위도, 경도
-    private List<LatLonPair> latLonPair;
+    @OneToMany(mappedBy = "walking", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<LatLonPair> latLonPair = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
@@ -45,9 +46,9 @@ public class Walking extends EntityDate {
 
     private double distance;
 
-//    public void addLatLon(double lat_ele, double lon_ele){
-//        latLonPair.addLatLon(lat_ele, lon_ele);
-//    }
+    public void addLatLon(LatLonPair latLonPair){
+        this.latLonPair.add(latLonPair);
+    }
 
     public void updateStatus(Status status){
         this.status = status;

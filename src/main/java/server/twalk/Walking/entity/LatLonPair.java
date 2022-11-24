@@ -23,4 +23,16 @@ public class LatLonPair {
 
     private Double lon;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "walking")
+    private Walking walking;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "jalking")
+    private Jalking jalking;
+
+    public LatLonPair(double lat, double lon) {
+        this.lat = lat;
+        this.lon = lon;
+    }
 }
