@@ -21,7 +21,7 @@ public class MemberDto {
     private double totalCalories;
     private Integer wins;
     private Integer loses;
-    private String winning_rate;
+    private String winning_rate; //전적
 
     public static MemberDto from(Member member){
         return MemberDto.builder()

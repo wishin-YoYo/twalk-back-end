@@ -45,23 +45,6 @@ public class JalkingService {
         return new IdResponse(jalking.getId());
     }
 
-    // jalking 취소 (requester)
-    @Transactional
-    public IdResponse cancel(JalkingReq req ) {
-
-        Member requestMember = memberRepository.findById(req.getRequesterId()).orElseThrow(MemberNotFoundException::new);
-        Member receivedMember = memberRepository.findById(req.getReceiverId()).orElseThrow(MemberNotFoundException::new);
-
-        Jalking jalking = jalkingRepository.save(
-                Jalking.builder()
-                        .status(statusRepository.findByStatusType(StatusType.ONGOING).orElseThrow(StatusNotFoundException::new))
-                        .requester(requestMember)
-                        .receiver(receivedMember)
-                        .build()
-        );
-
-        return new IdResponse(jalking.getId());
-    }
 
     // jalking 승인 (receiver)
     @Transactional
@@ -102,13 +85,6 @@ public class JalkingService {
 
     }
 
-    // jalking 조회
-    @Transactional
-    public List<JalkingDto> readAll() {
-        return JalkingDto.toDtoList(jalkingRepository.findAll());
-
-    }
-
     // 내가 요청한 jalking list ( 내가 request 로 지정된 것)
     @Transactional
     public List<JalkingDto> readRequestJalkings(JalkingReq req) {
@@ -125,7 +101,7 @@ public class JalkingService {
 
         Member receiver = memberRepository.findById(req.getReceiverId()).orElseThrow(MemberNotFoundException::new);
         return JalkingDto.toDtoList(
-                jalkingRepository.findByRequester(receiver).stream()
+                jalkingRepository.findByReceiver(receiver).stream()
                         .filter(
                                 jalking -> !jalking.getStatus().getStatusType().equals(StatusType.ONGOING)
                         )

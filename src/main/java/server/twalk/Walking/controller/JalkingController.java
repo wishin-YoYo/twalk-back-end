@@ -21,7 +21,7 @@ public class JalkingController {
     private final JalkingService jalkingService;
 
     @ApiOperation(value = "jalking 생성", notes = "join walking 객체 생성 \n * requesterId, receiverId 보내주세요")
-    @PostMapping("/join-walking")
+    @PostMapping("/jalking")
     @ResponseStatus(HttpStatus.CREATED)
     public Response create(
             @Valid @ModelAttribute
@@ -33,8 +33,8 @@ public class JalkingController {
     }
 
     @ApiOperation(value = "jalking 승인", notes = "join walking 승인")
-    @PutMapping("/join-walking/approve/{id}")
-    @ResponseStatus(HttpStatus.CREATED)
+    @PutMapping("/jalking-approve/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public Response approve(
             @PathVariable Long id
     ) {
@@ -44,8 +44,8 @@ public class JalkingController {
     }
 
     @ApiOperation(value = "jalking 거절", notes = "join walking 거절")
-    @PutMapping("/join-walking/reject/{id}")
-    @ResponseStatus(HttpStatus.CREATED)
+    @PutMapping("/jalking-reject/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public Response reject(
             @PathVariable Long id
     ) {
@@ -55,8 +55,8 @@ public class JalkingController {
     }
 
     @ApiOperation(value = "jalking 취소", notes = "join walking 취소 => 삭제됨")
-    @PutMapping("/join-walking/cancel/{id}")
-    @ResponseStatus(HttpStatus.CREATED)
+    @PutMapping("/jalking-cancel/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public Response cancel(
             @PathVariable Long id
     ) {
@@ -73,13 +73,6 @@ public class JalkingController {
               @PathVariable Long id
     ) {
         return Response.success(jalkingService.read(id));
-    }
-
-    @ApiOperation(value = "모든 jalking 조회", notes = "jalkign 조회")
-    @GetMapping("/jalkings")
-    @ResponseStatus(HttpStatus.OK)
-    public Response readAll() {
-        return Response.success(jalkingService.readAll());
     }
 
     @ApiOperation(value = "내가 요청한 jalking request", notes = "내가 요청한 jalking request들 조회 \n * requesterId 만 보내주세요")

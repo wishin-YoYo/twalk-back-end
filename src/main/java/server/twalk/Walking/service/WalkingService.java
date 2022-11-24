@@ -18,8 +18,6 @@ import server.twalk.Walking.exception.StatusNotFoundException;
 import server.twalk.Walking.exception.WalkingNotFoundException;
 import server.twalk.Walking.repository.WalkingRepository;
 
-import java.util.List;
-
 @RequiredArgsConstructor
 @Service
 public class WalkingService {
