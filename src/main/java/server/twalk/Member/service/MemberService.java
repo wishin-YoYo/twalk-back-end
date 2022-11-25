@@ -9,11 +9,14 @@ import server.twalk.Member.dto.MemberDto;
 import server.twalk.Member.entity.Member;
 import server.twalk.Member.exception.MemberNotFoundException;
 import server.twalk.Member.repository.MemberRepository;
+import server.twalk.PvP.entity.StatusType;
+import server.twalk.Walking.dto.JalkingDto;
 import server.twalk.Walking.dto.LatLonPairDto;
 import server.twalk.Walking.dto.WalkingDto;
 import server.twalk.Walking.dto.request.WalkingReq;
 import server.twalk.Walking.entity.LatLonPair;
 import server.twalk.Walking.entity.Walking;
+import server.twalk.Walking.repository.JalkingRepository;
 import server.twalk.Walking.repository.WalkingRepository;
 import server.twalk.Walking.service.WalkingCommonService;
 
@@ -25,10 +28,9 @@ import java.util.stream.Collectors;
 @Service
 public class MemberService {
 
-    @Value("${default.image.address}")
-    private String defaultImageAddress;
     private final MemberRepository memberRepository;
     private final WalkingRepository walkingRepository;
+    private final JalkingRepository jalkingRepository;
 
     // 멤버의 정보를 전달해주는 것
     public MemberDto read(Long id){
@@ -107,6 +109,32 @@ public class MemberService {
         member.updateMyLocation(new LatLonPair(req.getLat(), req.getLon()));
 
         return new IdResponse(memberId);
+
+    }
+
+    // 내가 요청한 jalking list ( 내가 request 로 지정된 것)
+    @Transactional
+    public List<JalkingDto> readRequestJalkings(Long id) {
+
+        Member requester = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
+        return JalkingDto.toDtoList(jalkingRepository.findByRequester(requester));
+
+    }
+
+    // 내게 요청 온 jalking list (내가 receiver 로 지정된 것)
+    // 이때 현재 진행중인 것만 나에게 들어온 요청에 뜨게 하기
+    @Transactional
+    public List<JalkingDto> readReceivedJalkings(Long id) {
+
+        Member receiver = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
+        return JalkingDto.toDtoList(
+                jalkingRepository.findByReceiver(receiver).stream()
+                        .filter(
+                                jalking -> !jalking.getStatus().getStatusType().equals(StatusType.ONGOING)
+                        )
+
+                        .collect(Collectors.toList())
+        );
 
     }
 
