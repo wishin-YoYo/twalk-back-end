@@ -1,6 +1,7 @@
 package server.twalk.Member.entity;
 
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 import server.twalk.Common.entity.EntityDate;
 import server.twalk.Walking.entity.LatLonPair;
 
@@ -49,7 +50,7 @@ public class Member extends EntityDate {
     @Column
     private Integer loses;
 
-    @OneToOne // 사용자 현재 위치
+    @OneToOne(cascade = CascadeType.ALL)
     private LatLonPair latLonPair;
 
     // 현재 내 위치 보여주기 설정이 t -> f , f -> t
