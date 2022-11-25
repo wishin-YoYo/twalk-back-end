@@ -130,7 +130,7 @@ public class MemberService {
         return JalkingDto.toDtoList(
                 jalkingRepository.findByReceiver(receiver).stream()
                         .filter(
-                                jalking -> !jalking.getStatus().getStatusType().equals(StatusType.ONGOING)
+                                jalking -> !jalking.getStatus().getStatusType().name().equals("ONGOING")
                         )
 
                         .collect(Collectors.toList())
