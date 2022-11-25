@@ -127,12 +127,19 @@ public class MemberService {
     public List<JalkingDto> readReceivedJalkings(Long id) {
 
         Member receiver = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
+
+        System.out.println(jalkingRepository.findByReceiver(receiver).size() + " 몇개 이 냐\n");
+        System.out.println(jalkingRepository.findByReceiver(receiver).stream()
+                .filter(
+                        jalking -> !jalking.getStatus().getStatusType().name().equals("ONGOING")
+                )
+                .collect(Collectors.toList()).size() + " 필터 후 \n");
+
         return JalkingDto.toDtoList(
                 jalkingRepository.findByReceiver(receiver).stream()
                         .filter(
                                 jalking -> !jalking.getStatus().getStatusType().name().equals("ONGOING")
                         )
-
                         .collect(Collectors.toList())
         );
 
