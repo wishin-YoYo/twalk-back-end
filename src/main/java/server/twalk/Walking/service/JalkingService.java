@@ -85,29 +85,4 @@ public class JalkingService {
 
     }
 
-    // 내가 요청한 jalking list ( 내가 request 로 지정된 것)
-    @Transactional
-    public List<JalkingDto> readRequestJalkings(JalkingReq req) {
-
-        Member requester = memberRepository.findById(req.getRequesterId()).orElseThrow(MemberNotFoundException::new);
-        return JalkingDto.toDtoList(jalkingRepository.findByRequester(requester));
-
-    }
-
-    // 내게 요청 온 jalking list (내가 receiver 로 지정된 것)
-    // 이때 현재 진행중인 것만 나에게 들어온 요청에 뜨게 하기
-    @Transactional
-    public List<JalkingDto> readReceivedJalkings(JalkingReq req) {
-
-        Member receiver = memberRepository.findById(req.getReceiverId()).orElseThrow(MemberNotFoundException::new);
-        return JalkingDto.toDtoList(
-                jalkingRepository.findByReceiver(receiver).stream()
-                        .filter(
-                                jalking -> !jalking.getStatus().getStatusType().equals(StatusType.ONGOING)
-                        )
-
-                        .collect(Collectors.toList())
-        );
-
-    }
 }
