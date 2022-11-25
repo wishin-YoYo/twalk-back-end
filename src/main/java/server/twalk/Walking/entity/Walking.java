@@ -47,6 +47,9 @@ public class Walking extends EntityDate {
     private double distance;
 
     public void addLatLon(LatLonPair latLonPair){
+        if(this.latLonPair==null){
+            this.latLonPair = new ArrayList<>();
+        }
         this.latLonPair.add(latLonPair);
     }
 
