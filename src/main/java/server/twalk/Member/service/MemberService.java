@@ -77,7 +77,7 @@ public class MemberService {
                     cmpMem.getLatLonPair().getLat(),
                     "meter"
             )<1000){
-                membersAround.add(cmpMem);
+                if(cmpMem.getId()!=targetId) membersAround.add(cmpMem);
             }
         }
 
