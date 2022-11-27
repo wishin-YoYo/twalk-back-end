@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import server.twalk.Member.entity.Member;
+import server.twalk.Walking.dto.LatLonPairDto;
 
 @Data
 @AllArgsConstructor
@@ -22,6 +23,7 @@ public class MemberDto {
     private Integer wins;
     private Integer loses;
     private String winning_rate; //전적
+    private LatLonPairDto latLonPairDto;
 
     public static MemberDto from(Member member){
         return MemberDto.builder()
@@ -43,6 +45,7 @@ public class MemberDto {
                         "%.3f", member.getWins()/(member.getWins()+member.getLoses())
                         )
                 )
+                .latLonPairDto(LatLonPairDto.toDto(member.getLatLonPair()))
                 .build();
     }
 
