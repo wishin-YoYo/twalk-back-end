@@ -32,7 +32,7 @@ public class WalkingController {
     }
 
     @ApiOperation(value = "사용자 걷기 update", notes = "사용자 걷기 위도, 경도 업데이트 \n * walking id 주시면 됩니다")
-    @PostMapping("/walking/{id}")
+    @PutMapping("/walking/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Response update(
             @PathVariable Long id,
@@ -45,7 +45,7 @@ public class WalkingController {
     }
 
     @ApiOperation(value = "사용자 걷기 종료", notes = "사용자 걷기 종료 \n * walking id 주시면 됩니다")
-    @PostMapping("/walking/end/{id}")
+    @PutMapping("/walking/end/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Response end(
             @PathVariable Long id,
