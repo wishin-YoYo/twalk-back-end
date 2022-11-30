@@ -40,7 +40,7 @@ public class PvPService {
 
         PvpMatch pvpMatch = pvpMatchRepository.save(
                 PvpMatch.builder()
-                        .pvpMode(pvpModeRepository.findByPvpModeType(PvpModeType.valueOf(req.getPvpMode())))
+                        .pvpMode(pvpModeRepository.findByPvpModeType(PvpModeType.valueOf("FLAG")))
                         .status(statusRepository.findByStatusType(StatusType.ONGOING).orElseThrow(StatusNotFoundException::new))
                         .requester(requestMember)
                         .receiver(receivedMember)
