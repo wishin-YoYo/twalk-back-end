@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@Table(name="status")
+@Table(name="pvpType")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PvpMode {
 
