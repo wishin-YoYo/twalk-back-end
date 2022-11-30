@@ -123,7 +123,7 @@ public class MemberController {
 
 
     @ApiOperation(value = "내가 요청한 pvp request", notes = "내가 요청한 pvp request들 조회\n *  url param : member id 주시면 됩니다")
-    @GetMapping("/pvp/req/{id}")
+    @GetMapping("/pvp-req/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Response readPVPRequest(
             @PathVariable Long id
