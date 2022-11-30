@@ -20,7 +20,7 @@ public class PvpController {
 
     private final PvPService pvpService;
 
-    @ApiOperation(value = "pvp 생성", notes = "pvp 객체 생성 \n * requesterId, receiverId, pvpMode(\"CHASE\" 혹은 \"RUN\" 중 하나) 보내주세요")
+    @ApiOperation(value = "pvp 생성", notes = "pvp 객체 생성 \n * requesterId, receiverId 보내주세요")
     @PostMapping("/pvp")
     @ResponseStatus(HttpStatus.CREATED)
     public Response create(
