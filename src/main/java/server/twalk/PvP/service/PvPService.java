@@ -88,28 +88,4 @@ public class PvPService {
 
     }
 
-    // 내가 만든 pvp 조회
-    @Transactional
-    public List<PvpMatchDto> readRequestPvp(PvpReq req) {
-
-        Member requester = memberRepository.findById(req.getRequesterId()).orElseThrow(MemberNotFoundException::new);
-        return PvpMatchDto.toDtoList(pvpMatchRepository.findByRequester(requester));
-
-    }
-
-    @Transactional
-    public List<PvpMatchDto> readReceivedPvps(PvpReq req) {
-
-        Member receiver = memberRepository.findById(req.getReceiverId()).orElseThrow(MemberNotFoundException::new);
-        return PvpMatchDto.toDtoList(
-                pvpMatchRepository.findByReceiver(receiver).stream()
-                        .filter(
-                                jalking -> !jalking.getStatus().getStatusType().equals(StatusType.ONGOING)
-                        )
-
-                        .collect(Collectors.toList())
-        );
-
-    }
-
 }

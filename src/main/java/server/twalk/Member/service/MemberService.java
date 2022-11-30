@@ -9,7 +9,10 @@ import server.twalk.Member.dto.MemberDto;
 import server.twalk.Member.entity.Member;
 import server.twalk.Member.exception.MemberNotFoundException;
 import server.twalk.Member.repository.MemberRepository;
+import server.twalk.PvP.dto.PvpMatchDto;
+import server.twalk.PvP.dto.PvpReq;
 import server.twalk.PvP.entity.StatusType;
+import server.twalk.PvP.repository.PvpMatchRepository;
 import server.twalk.Walking.dto.JalkingDto;
 import server.twalk.Walking.dto.LatLonPairDto;
 import server.twalk.Walking.dto.WalkingDto;
@@ -31,6 +34,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final WalkingRepository walkingRepository;
     private final JalkingRepository jalkingRepository;
+    private final PvpMatchRepository pvpMatchRepository;
 
     // 멤버의 정보를 전달해주는 것
     public MemberDto read(Long id){
@@ -134,7 +138,31 @@ public class MemberService {
                         )
                         .collect(Collectors.toList())
         );
+    }
+
+
+    // 내가 만든 pvp 조회
+    @Transactional
+    public List<PvpMatchDto> readRequestPvp(Long id) {
+
+        Member requester = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
+        return PvpMatchDto.toDtoList(pvpMatchRepository.findByRequester(requester));
 
     }
+
+    @Transactional
+    public List<PvpMatchDto> readReceivedPvps(Long id) {
+
+        Member receiver = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
+        return PvpMatchDto.toDtoList(
+                pvpMatchRepository.findByReceiver(receiver).stream()
+                        .filter(
+                                jalking -> !jalking.getStatus().getStatusType().equals(StatusType.ONGOING)
+                        )
+
+                        .collect(Collectors.toList())
+        );
+    }
+
 
 }

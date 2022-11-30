@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import server.twalk.Common.entity.response.Response;
 import server.twalk.Member.service.MemberService;
+import server.twalk.PvP.dto.PvpReq;
 import server.twalk.Walking.dto.request.JalkingReq;
 import server.twalk.Walking.dto.request.WalkingReq;
 
@@ -102,7 +103,7 @@ public class MemberController {
     }
 
 
-    @ApiOperation(value = "내가 요청한 jalking request", notes = "내가 요청한 jalking request들 조회 ")
+    @ApiOperation(value = "내가 요청한 jalking request", notes = "내가 요청한 jalking request들 조회\n *  url param : member id 주시면 됩니다 ")
     @GetMapping("/jalking-req/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Response readRequest(
@@ -111,7 +112,7 @@ public class MemberController {
         return Response.success(memberService.readRequestJalkings(id));
     }
 
-    @ApiOperation(value = "내게 요청 들어온 jalking", notes = "내게 요청 들어온 jalking 조회 ")
+    @ApiOperation(value = "내게 요청 들어온 jalking", notes = "내게 요청 들어온 jalking 조회\n *  url param : member id 주시면 됩니다 ")
     @GetMapping("/jalking-rec/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Response readReceived(
@@ -120,5 +121,23 @@ public class MemberController {
         return Response.success(memberService.readReceivedJalkings(id));
     }
 
+
+    @ApiOperation(value = "내가 요청한 pvp request", notes = "내가 요청한 pvp request들 조회\n *  url param : member id 주시면 됩니다")
+    @GetMapping("/pvp/request/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Response readPVPRequest(
+            @PathVariable Long id
+    ) {
+        return Response.success(memberService.readRequestPvp(id));
+    }
+
+    @ApiOperation(value = "내게 요청 들어온 pvp", notes = "내게 요청 들어온 pvp 조회\n *  url param : member id 주시면 됩니다")
+    @GetMapping("/pvp/receive/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Response readPVPReceived(
+            @PathVariable Long id
+    ) {
+        return Response.success(memberService.readReceivedPvps(id));
+    }
 
 }
