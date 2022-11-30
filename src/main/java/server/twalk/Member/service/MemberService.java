@@ -157,7 +157,7 @@ public class MemberService {
         return PvpMatchDto.toDtoList(
                 pvpMatchRepository.findByReceiver(receiver).stream()
                         .filter(
-                                jalking -> !jalking.getStatus().getStatusType().equals(StatusType.ONGOING)
+                                jalking -> !jalking.getStatus().getStatusType().name().equals("ONGOING")
                         )
 
                         .collect(Collectors.toList())
