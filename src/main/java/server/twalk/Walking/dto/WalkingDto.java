@@ -24,6 +24,8 @@ public class WalkingDto {
 
     private List<LatLonPairDto> list;
 
+    private String status;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     LocalDateTime createdAt;
 
@@ -36,6 +38,7 @@ public class WalkingDto {
                 walking.getWalkingCount(),
                 MemberDto.from(walking.getMember()),
                 LatLonPairDto.toDtoList(walking.getLatLonPair()),
+                walking.getStatus().getStatusType().name(),
                 walking.getCreatedAt(),
                 walking.getModifiedAt()
         );
@@ -48,6 +51,7 @@ public class WalkingDto {
                         walking.getWalkingCount(),
                         MemberDto.from(walking.getMember()),
                         LatLonPairDto.toDtoList(walking.getLatLonPair()),
+                        walking.getStatus().getStatusType().name(),
                         walking.getCreatedAt(),
                         walking.getModifiedAt()
                 )
