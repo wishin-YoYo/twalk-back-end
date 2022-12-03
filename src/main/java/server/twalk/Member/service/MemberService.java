@@ -17,6 +17,7 @@ import server.twalk.Walking.dto.JalkingDto;
 import server.twalk.Walking.dto.LatLonPairDto;
 import server.twalk.Walking.dto.WalkingDto;
 import server.twalk.Walking.dto.request.WalkingReq;
+import server.twalk.Walking.entity.Jalking;
 import server.twalk.Walking.entity.LatLonPair;
 import server.twalk.Walking.entity.Walking;
 import server.twalk.Walking.repository.JalkingRepository;
@@ -118,26 +119,35 @@ public class MemberService {
 
     // 내가 요청한 jalking list ( 내가 request 로 지정된 것)
     @Transactional
-    public List<JalkingDto> readRequestJalkings(Long id) {
+    public JalkingDto readRequestJalkings(Long id) {
 
         Member requester = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
-        return JalkingDto.toDtoList(jalkingRepository.findByRequester(requester));
+        List<Jalking> jalkings = jalkingRepository.findByRequesterByOrderByCreatedAtDesc(requester).stream()
+                        .filter( jalking -> jalking.getStatus().getStatusType().name().equals("ONGOING") )
+                        .collect(Collectors.toList());
+
+        return jalkings.size()>0? JalkingDto.toDto(jalkings.get(0)) :new JalkingDto();
 
     }
 
     // 내게 요청 온 jalking list (내가 receiver 로 지정된 것)
     // 이때 현재 진행중인 것만 나에게 들어온 요청에 뜨게 하기
     @Transactional
-    public List<JalkingDto> readReceivedJalkings(Long id) {
+    public JalkingDto readReceivedJalkings(Long id) {
 
         Member receiver = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
-        return JalkingDto.toDtoList(
-                jalkingRepository.findByReceiver(receiver).stream()
-                        .filter(
-                                jalking -> jalking.getStatus().getStatusType().name().equals("ONGOING")
-                        )
-                        .collect(Collectors.toList())
-        );
+//        return JalkingDto.toDtoList(
+//                jalkingRepository.findByReceiverByOrderByCreatedAtDesc(receiver).stream()
+//                        .filter(
+//                                jalking -> jalking.getStatus().getStatusType().name().equals("ONGOING")
+//                        )
+//                        .collect(Collectors.toList())
+//        );
+        List<Jalking> jalkings = jalkingRepository.findByReceiverByOrderByCreatedAtDesc(receiver).stream()
+                .filter( jalking -> jalking.getStatus().getStatusType().name().equals("ONGOING") )
+                .collect(Collectors.toList());
+
+        return jalkings.size()>0? JalkingDto.toDto(jalkings.get(0)) :new JalkingDto();
     }
 
 

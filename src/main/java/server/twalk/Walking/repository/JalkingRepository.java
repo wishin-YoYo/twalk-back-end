@@ -9,4 +9,6 @@ import java.util.List;
 public interface JalkingRepository extends JpaRepository<Jalking , Long> {
     List<Jalking> findByRequester(Member member);
     List<Jalking> findByReceiver(Member member);
+    List<Jalking> findByRequesterByOrderByCreatedAtDesc(Member member);
+    List<Jalking> findByReceiverByOrderByCreatedAtDesc(Member member);
 }
