@@ -122,7 +122,7 @@ public class MemberService {
     public JalkingDto readRequestJalkings(Long id) {
 
         Member requester = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
-        List<Jalking> jalkings = jalkingRepository.findByRequesterByOrderByCreatedAtDesc(requester).stream()
+        List<Jalking> jalkings = jalkingRepository.findByRequesterOrderByCreatedAtDesc(requester).stream()
                         .filter( jalking -> jalking.getStatus().getStatusType().name().equals("ONGOING") )
                         .collect(Collectors.toList());
 
@@ -143,7 +143,7 @@ public class MemberService {
 //                        )
 //                        .collect(Collectors.toList())
 //        );
-        List<Jalking> jalkings = jalkingRepository.findByReceiverByOrderByCreatedAtDesc(receiver).stream()
+        List<Jalking> jalkings = jalkingRepository.findByReceiverOrderByCreatedAtDesc(receiver).stream()
                 .filter( jalking -> jalking.getStatus().getStatusType().name().equals("ONGOING") )
                 .collect(Collectors.toList());
 
