@@ -31,8 +31,19 @@ public class LatLonPair {
     @JoinColumn(name = "jalking")
     private Jalking jalking;
 
-    public LatLonPair(double lat, double lon) {
+    public LatLonPair(double lat, double lon ) {
         this.lat = lat;
         this.lon = lon;
     }
+
+    public LatLonPair(double lat, double lon, Walking walking) {
+        this.lat = lat;
+        this.lon = lon;
+        this.walking = walking;
+    }
+
+    public void initWalking(Walking walking){
+        this.walking = walking;
+    }
+
 }

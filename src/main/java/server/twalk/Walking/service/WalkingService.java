@@ -41,7 +41,7 @@ public class WalkingService {
         );
 
         // 최초의 lat, lon
-        walking.addLatLon(new LatLonPair(req.getLat(), req.getLon()));
+        walking.addLatLon(new LatLonPair(req.getLat(), req.getLon(), walking));
 
         return new IdResponse(walking.getId());
     }
@@ -52,7 +52,7 @@ public class WalkingService {
         Walking walking = walkingRepository.findById(walkingId).orElseThrow(WalkingNotFoundException::new);
 
         // 추가 이동한 lat, lon
-        // walking.addLatLon(req.getLat(), req.getLon());
+         walking.addLatLon(new LatLonPair(req.getLat(), req.getLon(), walking));
 
         return new IdResponse(walking.getId());
     }

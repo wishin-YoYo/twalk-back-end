@@ -26,9 +26,9 @@ public class PvpMatchDto {
 
     String content;
 
-    String pvpMode;
-
     String status;
+
+    String pvpMode;
 
     @Nullable
     LatLonPairDto targetLocation;

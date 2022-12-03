@@ -17,6 +17,7 @@ import server.twalk.Walking.dto.JalkingDto;
 import server.twalk.Walking.dto.LatLonPairDto;
 import server.twalk.Walking.dto.WalkingDto;
 import server.twalk.Walking.dto.request.WalkingReq;
+import server.twalk.Walking.entity.Jalking;
 import server.twalk.Walking.entity.LatLonPair;
 import server.twalk.Walking.entity.Walking;
 import server.twalk.Walking.repository.JalkingRepository;
@@ -84,7 +85,6 @@ public class MemberService {
                 if(cmpMem.getId()!=targetId) membersAround.add(cmpMem);
             }
         }
-
         return membersAround.stream().map(
                 MemberDto::from
         ).collect(Collectors.toList());
@@ -92,7 +92,6 @@ public class MemberService {
 
     // 현재 내 위치 주는 것
     public LatLonPairDto myLocation(Long memberId){
-
         Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
         return LatLonPairDto.toDto(member.getLatLonPair());
     }
@@ -102,7 +101,6 @@ public class MemberService {
     public List<WalkingDto> readMineAll(Long memberId ) {
         Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
         List<Walking> walks = walkingRepository.findByMemberOrderByIdDesc(member);
-
         return WalkingDto.toDtoList(walks);
     }
 
@@ -113,55 +111,49 @@ public class MemberService {
         member.updateMyLocation(new LatLonPair(req.getLat(), req.getLon()));
 
         return new IdResponse(memberId);
-
     }
 
     // 내가 요청한 jalking list ( 내가 request 로 지정된 것)
     @Transactional
-    public List<JalkingDto> readRequestJalkings(Long id) {
+    public JalkingDto readRequestJalkings(Long id) {
 
         Member requester = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
-        return JalkingDto.toDtoList(jalkingRepository.findByRequester(requester));
+        List<Jalking> jalkings = jalkingRepository.findByRequesterOrderByCreatedAtDesc(requester).stream()
+                        .filter( jalking -> jalking.getStatus().getStatusType().name().equals("ONGOING") )
+                        .collect(Collectors.toList());
 
+        return jalkings.size()>0? JalkingDto.toDto(jalkings.get(0)) :new JalkingDto();
     }
 
     // 내게 요청 온 jalking list (내가 receiver 로 지정된 것)
     // 이때 현재 진행중인 것만 나에게 들어온 요청에 뜨게 하기
     @Transactional
-    public List<JalkingDto> readReceivedJalkings(Long id) {
+    public JalkingDto readReceivedJalkings(Long id) {
 
         Member receiver = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
-        return JalkingDto.toDtoList(
-                jalkingRepository.findByReceiver(receiver).stream()
-                        .filter(
-                                jalking -> jalking.getStatus().getStatusType().name().equals("ONGOING")
-                        )
-                        .collect(Collectors.toList())
-        );
+        List<Jalking> jalkings = jalkingRepository.findByReceiverOrderByCreatedAtDesc(receiver).stream()
+                .filter( jalking -> jalking.getStatus().getStatusType().name().equals("ONGOING") )
+                .collect(Collectors.toList());
+        return jalkings.size()>0? JalkingDto.toDto(jalkings.get(0)) :new JalkingDto();
     }
-
 
     // 내가 만든 pvp 조회
     @Transactional
-    public List<PvpMatchDto> readRequestPvp(Long id) {
+    public PvpMatchDto readRequestPvp(Long id) {
 
         Member requester = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
-        return PvpMatchDto.toDtoList(pvpMatchRepository.findByRequester(requester));
-
+        return PvpMatchDto.toDtoList(pvpMatchRepository.findByRequesterOrderByCreatedAt(requester)).size()>0?
+                PvpMatchDto.toDtoList(pvpMatchRepository.findByRequesterOrderByCreatedAt(requester)).get(0)
+                :new PvpMatchDto();
     }
 
     @Transactional
-    public List<PvpMatchDto> readReceivedPvps(Long id) {
+    public PvpMatchDto readReceivedPvps(Long id) {
 
         Member receiver = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
-        return PvpMatchDto.toDtoList(
-                pvpMatchRepository.findByReceiver(receiver).stream()
-                        .filter(
-                                pvpMatch -> pvpMatch.getStatus().getStatusType().name().equals("ONGOING")
-                        )
-                        .collect(Collectors.toList())
-        );
+        return PvpMatchDto.toDtoList(pvpMatchRepository.findByReceiverOrderByCreatedAt(receiver)).size()>0?
+                PvpMatchDto.toDtoList(pvpMatchRepository.findByReceiverOrderByCreatedAt(receiver)).get(0)
+                :new PvpMatchDto();
     }
-
 
 }
