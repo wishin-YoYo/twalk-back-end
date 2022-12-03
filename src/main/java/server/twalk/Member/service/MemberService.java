@@ -85,7 +85,6 @@ public class MemberService {
                 if(cmpMem.getId()!=targetId) membersAround.add(cmpMem);
             }
         }
-
         return membersAround.stream().map(
                 MemberDto::from
         ).collect(Collectors.toList());
@@ -93,7 +92,6 @@ public class MemberService {
 
     // 현재 내 위치 주는 것
     public LatLonPairDto myLocation(Long memberId){
-
         Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
         return LatLonPairDto.toDto(member.getLatLonPair());
     }
@@ -103,7 +101,6 @@ public class MemberService {
     public List<WalkingDto> readMineAll(Long memberId ) {
         Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
         List<Walking> walks = walkingRepository.findByMemberOrderByIdDesc(member);
-
         return WalkingDto.toDtoList(walks);
     }
 
@@ -114,7 +111,6 @@ public class MemberService {
         member.updateMyLocation(new LatLonPair(req.getLat(), req.getLon()));
 
         return new IdResponse(memberId);
-
     }
 
     // 내가 요청한 jalking list ( 내가 request 로 지정된 것)
@@ -127,7 +123,6 @@ public class MemberService {
                         .collect(Collectors.toList());
 
         return jalkings.size()>0? JalkingDto.toDto(jalkings.get(0)) :new JalkingDto();
-
     }
 
     // 내게 요청 온 jalking list (내가 receiver 로 지정된 것)
@@ -136,42 +131,29 @@ public class MemberService {
     public JalkingDto readReceivedJalkings(Long id) {
 
         Member receiver = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
-//        return JalkingDto.toDtoList(
-//                jalkingRepository.findByReceiverByOrderByCreatedAtDesc(receiver).stream()
-//                        .filter(
-//                                jalking -> jalking.getStatus().getStatusType().name().equals("ONGOING")
-//                        )
-//                        .collect(Collectors.toList())
-//        );
         List<Jalking> jalkings = jalkingRepository.findByReceiverOrderByCreatedAtDesc(receiver).stream()
                 .filter( jalking -> jalking.getStatus().getStatusType().name().equals("ONGOING") )
                 .collect(Collectors.toList());
-
         return jalkings.size()>0? JalkingDto.toDto(jalkings.get(0)) :new JalkingDto();
     }
 
-
     // 내가 만든 pvp 조회
     @Transactional
-    public List<PvpMatchDto> readRequestPvp(Long id) {
+    public PvpMatchDto readRequestPvp(Long id) {
 
         Member requester = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
-        return PvpMatchDto.toDtoList(pvpMatchRepository.findByRequester(requester));
-
+        return PvpMatchDto.toDtoList(pvpMatchRepository.findByRequesterOrderByCreatedAt(requester)).size()>0?
+                PvpMatchDto.toDtoList(pvpMatchRepository.findByRequesterOrderByCreatedAt(requester)).get(0)
+                :new PvpMatchDto();
     }
 
     @Transactional
-    public List<PvpMatchDto> readReceivedPvps(Long id) {
+    public PvpMatchDto readReceivedPvps(Long id) {
 
         Member receiver = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
-        return PvpMatchDto.toDtoList(
-                pvpMatchRepository.findByReceiver(receiver).stream()
-                        .filter(
-                                pvpMatch -> pvpMatch.getStatus().getStatusType().name().equals("ONGOING")
-                        )
-                        .collect(Collectors.toList())
-        );
+        return PvpMatchDto.toDtoList(pvpMatchRepository.findByReceiverOrderByCreatedAt(receiver)).size()>0?
+                PvpMatchDto.toDtoList(pvpMatchRepository.findByReceiverOrderByCreatedAt(receiver)).get(0)
+                :new PvpMatchDto();
     }
-
 
 }
