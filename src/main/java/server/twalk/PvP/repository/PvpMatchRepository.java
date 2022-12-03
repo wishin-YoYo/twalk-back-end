@@ -8,6 +8,6 @@ import server.twalk.Walking.entity.Jalking;
 import java.util.List;
 
 public interface PvpMatchRepository extends JpaRepository<PvpMatch, Long> {
-    List<PvpMatch> findByRequesterOrderByCreatedAt(Member member);
-    List<PvpMatch> findByReceiverOrderByCreatedAt(Member member);
+    List<PvpMatch> findByRequesterOrderByCreatedAtDesc(Member member);
+    List<PvpMatch> findByReceiverOrderByCreatedAtDesc(Member member);
 }

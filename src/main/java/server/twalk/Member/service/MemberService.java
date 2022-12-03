@@ -142,8 +142,8 @@ public class MemberService {
     public PvpMatchDto readRequestPvp(Long id) {
 
         Member requester = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
-        return PvpMatchDto.toDtoList(pvpMatchRepository.findByRequesterOrderByCreatedAt(requester)).size()>0?
-                PvpMatchDto.toDtoList(pvpMatchRepository.findByRequesterOrderByCreatedAt(requester)).get(0)
+        return PvpMatchDto.toDtoList(pvpMatchRepository.findByRequesterOrderByCreatedAtDesc(requester)).size()>0?
+                PvpMatchDto.toDtoList(pvpMatchRepository.findByRequesterOrderByCreatedAtDesc(requester)).get(0)
                 :new PvpMatchDto();
     }
 
@@ -151,8 +151,8 @@ public class MemberService {
     public PvpMatchDto readReceivedPvps(Long id) {
 
         Member receiver = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
-        return PvpMatchDto.toDtoList(pvpMatchRepository.findByReceiverOrderByCreatedAt(receiver)).size()>0?
-                PvpMatchDto.toDtoList(pvpMatchRepository.findByReceiverOrderByCreatedAt(receiver)).get(0)
+        return PvpMatchDto.toDtoList(pvpMatchRepository.findByReceiverOrderByCreatedAtDesc(receiver)).size()>0?
+                PvpMatchDto.toDtoList(pvpMatchRepository.findByReceiverOrderByCreatedAtDesc(receiver)).get(0)
                 :new PvpMatchDto();
     }
 
