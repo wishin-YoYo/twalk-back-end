@@ -134,31 +134,26 @@ public class MemberService {
         List<Jalking> jalkings = jalkingRepository.findByReceiverOrderByCreatedAtDesc(receiver).stream()
                 .filter( jalking -> jalking.getStatus().getStatusType().name().equals("ONGOING") )
                 .collect(Collectors.toList());
-
         return jalkings.size()>0? JalkingDto.toDto(jalkings.get(0)) :new JalkingDto();
     }
 
     // 내가 만든 pvp 조회
     @Transactional
-    public List<PvpMatchDto> readRequestPvp(Long id) {
+    public PvpMatchDto readRequestPvp(Long id) {
 
         Member requester = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
-        return PvpMatchDto.toDtoList(pvpMatchRepository.findByRequester(requester));
-
+        return PvpMatchDto.toDtoList(pvpMatchRepository.findByRequesterOrderByCreatedAt(requester)).size()>0?
+                PvpMatchDto.toDtoList(pvpMatchRepository.findByRequesterOrderByCreatedAt(requester)).get(0)
+                :new PvpMatchDto();
     }
 
     @Transactional
-    public List<PvpMatchDto> readReceivedPvps(Long id) {
+    public PvpMatchDto readReceivedPvps(Long id) {
 
         Member receiver = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
-        return PvpMatchDto.toDtoList(
-                pvpMatchRepository.findByReceiver(receiver).stream()
-                        .filter(
-                                pvpMatch -> pvpMatch.getStatus().getStatusType().name().equals("ONGOING")
-                        )
-                        .collect(Collectors.toList())
-        );
+        return PvpMatchDto.toDtoList(pvpMatchRepository.findByReceiverOrderByCreatedAt(receiver)).size()>0?
+                PvpMatchDto.toDtoList(pvpMatchRepository.findByReceiverOrderByCreatedAt(receiver)).get(0)
+                :new PvpMatchDto();
     }
-
 
 }
