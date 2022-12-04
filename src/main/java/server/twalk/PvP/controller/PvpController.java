@@ -77,4 +77,15 @@ public class PvpController {
         return Response.success(pvpService.read(id));
     }
 
+    @ApiOperation(value = "pvp 목표 위치 설정", notes = "pvp 목표 위치 설정 \n url param 으로 pvpId, body에 lat(위도), lon(경도)만 주시면 됩니다. ")
+    @PutMapping("/pvp/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Response location(
+            @PathVariable Long id,
+            @Valid @ModelAttribute
+                    PvpReq req
+    ) {
+        return Response.success(pvpService.setLocation(id, req));
+    }
+
 }

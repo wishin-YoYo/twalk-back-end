@@ -16,11 +16,9 @@ import server.twalk.PvP.repository.PvpMatchRepository;
 import server.twalk.PvP.repository.PvpModeRepository;
 import server.twalk.PvP.repository.StatusRepository;
 import server.twalk.Walking.dto.request.JalkingReq;
+import server.twalk.Walking.entity.LatLonPair;
 import server.twalk.Walking.exception.JalkingNotFoundException;
 import server.twalk.Walking.exception.StatusNotFoundException;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -76,6 +74,16 @@ public class PvPService {
 
         PvpMatch pvpMatch = pvpMatchRepository.findById(pvpId).orElseThrow(JalkingNotFoundException::new);
         pvpMatchRepository.delete(pvpMatch);
+        return new IdResponse(pvpMatch.getId());
+
+    }
+
+    // pvp 목표 위치 설정
+    @Transactional
+    public IdResponse setLocation(Long pvpId, PvpReq req) {
+
+        PvpMatch pvpMatch = pvpMatchRepository.findById(pvpId).orElseThrow(JalkingNotFoundException::new);
+        pvpMatch.setTargetLocation(new LatLonPair(req.getLat(), req.getLon()));
         return new IdResponse(pvpMatch.getId());
 
     }

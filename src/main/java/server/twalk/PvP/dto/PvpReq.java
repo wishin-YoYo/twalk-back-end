@@ -14,4 +14,6 @@ public class PvpReq {
     Long receiverId;
     Long pvpId;
     String pvpMode;
+    Double lat;
+    Double lon;
 }
