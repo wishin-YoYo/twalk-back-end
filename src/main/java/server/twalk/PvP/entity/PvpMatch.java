@@ -60,7 +60,7 @@ public class PvpMatch extends EntityDate {
     private Status status;
 
     // 만나기로 한 위치
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private LatLonPair targetLocation;
 
     public void setStatus(Status status){
