@@ -15,12 +15,8 @@ import server.twalk.Walking.entity.LatLonPair;
 import server.twalk.Walking.exception.LatLonPairNotFoundException;
 import server.twalk.Walking.repository.LatLonPairRepository;
 
-import javax.annotation.PostConstruct;
-
-@Component
 @RequiredArgsConstructor
 @Slf4j
-@Profile("local")
 @Service
 @Transactional
 public class InitMember {
