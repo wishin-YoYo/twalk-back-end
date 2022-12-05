@@ -32,7 +32,7 @@ public class InitMember {
 
     public void initIFC() {
         initIFCMember();
-        initTargetSogang();
+        initTargetIFC();
     }
 
     @Transactional
