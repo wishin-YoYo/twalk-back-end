@@ -3,6 +3,7 @@ package server.twalk.PvP.entity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 
@@ -22,7 +23,15 @@ public class PvpMode {
     @Column(nullable = false, unique = true)
     private PvpModeType pvpModeType;
 
+    @Nullable
+    @Column
+    private boolean targetLocation;
+
     public PvpMode(PvpModeType pvpModeType) {
         this.pvpModeType = pvpModeType;
+    }
+
+    public void setTargetLocation (boolean targetLocation) {
+        this.targetLocation = targetLocation;
     }
 }

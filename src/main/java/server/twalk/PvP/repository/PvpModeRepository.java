@@ -6,4 +6,5 @@ import server.twalk.PvP.entity.PvpModeType;
 
 public interface PvpModeRepository extends JpaRepository<PvpMode, Long> {
     PvpMode findByPvpModeType(PvpModeType pvpModeType);
+
 }
