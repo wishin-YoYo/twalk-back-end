@@ -10,6 +10,7 @@ import server.twalk.Member.exception.MemberNotFoundException;
 import server.twalk.Member.exception.MemberNotWalkingException;
 import server.twalk.Socket.exception.SocketRoomRefreshException;
 import server.twalk.Walking.exception.JalkingNotFoundException;
+import server.twalk.Walking.exception.LatLonPairNotFoundException;
 import server.twalk.Walking.exception.WalkingNotFoundException;
 
 @RestControllerAdvice
@@ -49,6 +50,13 @@ public class ExceptionAdvice {
     public Response JalkingNotFoundException(JalkingNotFoundException e) {
         log.info("e = {}", e.getMessage());
         return Response.failure(404, "Jalking Not Found - maybe Canceled Jalking ");
+    }
+
+    @ExceptionHandler(LatLonPairNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Response LatLonPairNotFoundException(LatLonPairNotFoundException e) {
+        log.info("e = {}", e.getMessage());
+        return Response.failure(404, " Lat Lon Pair Not Found Exception ");
     }
 
 }

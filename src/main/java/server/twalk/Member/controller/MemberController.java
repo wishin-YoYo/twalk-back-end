@@ -140,4 +140,20 @@ public class MemberController {
         return Response.success(memberService.readReceivedPvps(id));
     }
 
+    @PostMapping("/sogang")
+    @ResponseStatus(HttpStatus.OK)
+    public Response memberSogang(
+    ) {
+        memberService.memberSogang();
+        return Response.success();
+    }
+
+    @PostMapping("/ifc")
+    @ResponseStatus(HttpStatus.OK)
+    public Response memberIFC(
+    ) {
+        memberService.memberIFC();
+        return Response.success();
+    }
+
 }

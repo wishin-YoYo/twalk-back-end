@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import server.twalk.Common.entity.response.IdResponse;
+import server.twalk.Member.InitMember;
 import server.twalk.Member.dto.MemberDto;
 import server.twalk.Member.entity.Member;
 import server.twalk.Member.exception.MemberNotFoundException;
@@ -36,6 +37,7 @@ public class MemberService {
     private final WalkingRepository walkingRepository;
     private final JalkingRepository jalkingRepository;
     private final PvpMatchRepository pvpMatchRepository;
+    private final InitMember initMember;
 
     // 멤버의 정보를 전달해주는 것
     public MemberDto read(Long id){
@@ -154,6 +156,16 @@ public class MemberService {
         return PvpMatchDto.toDtoList(pvpMatchRepository.findByReceiverOrderByCreatedAtDesc(receiver)).size()>0?
                 PvpMatchDto.toDtoList(pvpMatchRepository.findByReceiverOrderByCreatedAtDesc(receiver)).get(0)
                 :new PvpMatchDto();
+    }
+
+    @Transactional
+    public void memberSogang() {
+        initMember.initSogang();
+    }
+
+    @Transactional
+    public void memberIFC() {
+        initMember.initIFC();
     }
 
 }
