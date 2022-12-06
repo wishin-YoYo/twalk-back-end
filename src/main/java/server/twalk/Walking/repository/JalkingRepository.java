@@ -17,6 +17,6 @@ public interface JalkingRepository extends JpaRepository<Jalking , Long> {
             "select i from Jalking " +
                     "i where i IN (:jalking) order by i.createdAt desc"
     )
-    List<Jalking> findByJalkings(@Param("jalkings") List<Jalking> jalkings);
+    List<Jalking> findByJalkings(@Param("jalking") List<Jalking> jalkings);
 
 }
