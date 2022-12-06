@@ -13,7 +13,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/twalk
     platform: postgres
     username: postgres
-    password: qpqpqp0614
+    password: rose234!
     hikari:
     minimumIdle: 2
     maximumPoolSize: 10

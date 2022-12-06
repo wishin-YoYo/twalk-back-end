@@ -71,7 +71,9 @@ public class MemberService {
         Member member = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
         Set<Jalking> jalkingList = new HashSet<>();
         jalkingList.addAll(jalkingRepository.findByReceiverOrderByCreatedAtDesc(member));
+        System.out.println(jalkingList.size()+"size woo jajaja ");
         jalkingList.addAll(jalkingRepository.findByRequesterOrderByCreatedAtDesc(member));
+        System.out.println(jalkingList.size()+"size woo jajaja ");
         return JalkingDto.toDtoList(jalkingRepository.findByJalkings(new ArrayList<>(jalkingList)));
     }
 
