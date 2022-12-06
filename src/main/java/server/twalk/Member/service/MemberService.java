@@ -26,7 +26,9 @@ import server.twalk.Walking.repository.WalkingRepository;
 import server.twalk.Walking.service.WalkingCommonService;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -63,6 +65,14 @@ public class MemberService {
         return memberRepository.findAll().stream().map(
                 i -> MemberDto.from(i)
         ).collect(Collectors.toList());
+    }
+
+    public List<JalkingDto>  readMyJalking(Long id) {
+        Member member = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
+        Set<Jalking> jalkingList = new HashSet<>();
+        jalkingList.addAll(jalkingRepository.findByReceiverOrderByCreatedAtDesc(member));
+        jalkingList.addAll(jalkingRepository.findByRequesterOrderByCreatedAtDesc(member));
+        return JalkingDto.toDtoList(jalkingRepository.findByJalkings(new ArrayList<>(jalkingList)));
     }
 
     public List<MemberDto> readAround(Long targetId){

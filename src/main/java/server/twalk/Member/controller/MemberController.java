@@ -156,4 +156,13 @@ public class MemberController {
         return Response.success();
     }
 
+    @ApiOperation(value = "내 jalking 기록 조회", notes = "내 jalking 중 완료된 것 리스트")
+    @GetMapping("/jalking/user/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Response myJalking(
+            @PathVariable Long id
+    ) {
+        return Response.success(memberService.readMyJalking(id));
+    }
+
 }
