@@ -67,16 +67,6 @@ public class MemberService {
         ).collect(Collectors.toList());
     }
 
-    public List<JalkingDto>  readMyJalking(Long id) {
-        Member member = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
-        Set<Jalking> jalkingList = new HashSet<>();
-        jalkingList.addAll(jalkingRepository.findByReceiverOrderByCreatedAtDesc(member));
-        System.out.println(jalkingList.size()+"size woo jajaja ");
-        jalkingList.addAll(jalkingRepository.findByRequesterOrderByCreatedAtDesc(member));
-        System.out.println(jalkingList.size()+"size woo jajaja ");
-        return JalkingDto.toDtoList(jalkingRepository.findByJalkings(new ArrayList<>(jalkingList)));
-    }
-
     public List<MemberDto> readAround(Long targetId){
 
         Member targetMember = memberRepository.findById(targetId).orElseThrow(MemberNotFoundException::new);
@@ -150,6 +140,25 @@ public class MemberService {
                 .collect(Collectors.toList());
         return jalkings.size()>0? JalkingDto.toDto(jalkings.get(0)) :new JalkingDto();
     }
+
+    public List<JalkingDto>  readMyJalking(Long id) {
+        Member member = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
+        Set<Jalking> jalkingList = new HashSet<>();
+
+        List<Jalking> jalkingsRec = jalkingRepository.findByReceiverOrderByCreatedAtDesc(member).stream()
+                .filter( jalking -> jalking.getStatus().getStatusType().name().equals("COMPLETE") )
+                .collect(Collectors.toList());
+        List<Jalking> jalkingsReq = jalkingRepository.findByRequesterOrderByCreatedAtDesc(member).stream()
+                .filter( jalking -> jalking.getStatus().getStatusType().name().equals("COMPLETE") )
+                .collect(Collectors.toList());
+
+        jalkingList.addAll(jalkingsRec);
+        jalkingList.addAll(jalkingsReq);
+        System.out.println(jalkingList.size()+"\n\n\n\n\n\n\n\n***************\n\n\n\n");
+
+        return JalkingDto.toDtoList(jalkingRepository.findByJalkings(new ArrayList<>(jalkingList)));
+    }
+
 
     // 내가 만든 pvp 조회
     @Transactional
