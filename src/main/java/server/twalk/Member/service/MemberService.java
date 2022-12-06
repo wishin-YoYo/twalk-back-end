@@ -1,7 +1,6 @@
 package server.twalk.Member.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import server.twalk.Common.entity.response.IdResponse;
@@ -11,8 +10,6 @@ import server.twalk.Member.entity.Member;
 import server.twalk.Member.exception.MemberNotFoundException;
 import server.twalk.Member.repository.MemberRepository;
 import server.twalk.PvP.dto.PvpMatchDto;
-import server.twalk.PvP.dto.PvpReq;
-import server.twalk.PvP.entity.StatusType;
 import server.twalk.PvP.repository.PvpMatchRepository;
 import server.twalk.Walking.dto.JalkingDto;
 import server.twalk.Walking.dto.LatLonPairDto;
@@ -33,6 +30,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class MemberService {
 
     private final MemberRepository memberRepository;
