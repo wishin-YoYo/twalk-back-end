@@ -81,4 +81,10 @@ public class Member extends EntityDate {
         this.totalCalories+=distance*0.8;
     }
 
+    public void updateWins(){
+        this.wins++;
+    }
+    public void updatLose(){
+        this.loses++;
+    }
 }

@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import server.twalk.Common.entity.response.Response;
 import server.twalk.Walking.dto.request.JalkingReq;
+import server.twalk.Walking.dto.request.WalkingReq;
 import server.twalk.Walking.service.JalkingService;
 
 import javax.validation.Valid;
@@ -74,4 +75,16 @@ public class JalkingController {
     ) {
         return Response.success(jalkingService.read(id));
     }
+
+    @ApiOperation(value = "jalking 종료", notes = "jalking 종료 \n * jalkingg id 주시면 됩니다")
+    @PutMapping("/jalking/end/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Response end(
+            @PathVariable Long id
+    ) {
+        return Response.success(
+                jalkingService.end(id)
+        );
+    }
+
 }

@@ -5,10 +5,15 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import server.twalk.Common.entity.response.Response;
 import server.twalk.PvP.dto.PvpReq;
+import server.twalk.PvP.entity.StatusType;
 import server.twalk.PvP.service.PvPService;
+import server.twalk.Walking.entity.Jalking;
+import server.twalk.Walking.exception.JalkingNotFoundException;
+import server.twalk.Walking.exception.StatusNotFoundException;
 
 import javax.validation.Valid;
 
@@ -86,6 +91,17 @@ public class PvpController {
                     PvpReq req
     ) {
         return Response.success(pvpService.setLocation(id, req));
+    }
+
+    // pvp 종료
+    @ApiOperation(value = "pvp 종료", notes = "pvp 종료 \n url param 으로 pvpId, WINNER member 아이디 보내주시면 됩니다. ")
+    @PutMapping("/pvp/end/{id}/{winnerId}")
+    @ResponseStatus(HttpStatus.OK)
+    public Response location(
+            @PathVariable Long id,
+            @PathVariable Long winnerId
+    ) {
+        return Response.success(pvpService.end(id, winnerId));
     }
 
 }

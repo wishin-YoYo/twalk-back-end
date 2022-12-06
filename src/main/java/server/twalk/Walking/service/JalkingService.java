@@ -85,4 +85,14 @@ public class JalkingService {
 
     }
 
+    // jalking 종료
+    @Transactional
+    public Long end(Long jalkingId) {
+
+        Jalking jalking = jalkingRepository.findById(jalkingId).orElseThrow(JalkingNotFoundException::new);
+        jalking.setStatus(statusRepository.findByStatusType(StatusType.COMPLETE).orElseThrow(StatusNotFoundException::new));
+        return jalking.getId();
+
+    }
+
 }

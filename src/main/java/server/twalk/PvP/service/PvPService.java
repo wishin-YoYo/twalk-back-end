@@ -23,6 +23,7 @@ import server.twalk.Walking.exception.LatLonPairNotFoundException;
 import server.twalk.Walking.exception.StatusNotFoundException;
 import server.twalk.Walking.repository.LatLonPairRepository;
 
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -113,6 +114,29 @@ public class PvPService {
     public PvpMatchDto read(Long pvpId) {
         PvpMatch pvpMatch = pvpMatchRepository.findById(pvpId).orElseThrow(JalkingNotFoundException::new);
         return PvpMatchDto.toDto(pvpMatch);
+
+    }
+
+    // pvp 목표 위치 설정
+    @Transactional
+    public IdResponse end(Long pvpId, Long winnerId) {
+
+        PvpMatch pvpMatch = pvpMatchRepository.findById(pvpId).orElseThrow(JalkingNotFoundException::new);
+        pvpMatch.setStatus(statusRepository.findByStatusType(StatusType.COMPLETE).orElseThrow(StatusNotFoundException::new));
+
+        Member requester = pvpMatch.getRequester();
+        Member receiver = pvpMatch.getReceiver();
+
+        if(Objects.equals(pvpMatch.getReceiver().getId(), winnerId)){
+            pvpMatch.setWinner(receiver);
+            receiver.updateWins();
+            requester.updatLose();
+        }else{
+            pvpMatch.setWinner(requester);
+            requester.updateWins();
+            receiver.updatLose();
+        };
+        return new IdResponse(pvpMatch.getId());
 
     }
 

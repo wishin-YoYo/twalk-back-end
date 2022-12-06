@@ -72,4 +72,7 @@ public class PvpMatch extends EntityDate {
         this.targetLocation = targetLocation;
     }
 
+    public void setWinner(@Nullable Member winner) {
+        this.winner = winner;
+    }
 }
