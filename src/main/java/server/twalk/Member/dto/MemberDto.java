@@ -42,7 +42,7 @@ public class MemberDto {
                                 "0"
                                 :
                         String.format(
-                        "%.3f", member.getWins()/(member.getWins()+member.getLoses())
+                        "%.3f", 1.0 * member.getWins()/(member.getWins()+member.getLoses())
                         )
                 )
                 .latLonPairDto(LatLonPairDto.toDto(member.getLatLonPair()))
