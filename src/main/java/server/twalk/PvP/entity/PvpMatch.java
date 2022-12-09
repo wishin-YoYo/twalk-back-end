@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Builder
 @Entity
 @Getter
-@Table(name="pvpMatch")
+@Table(name="pvp_match")
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PvpMatch extends EntityDate {
@@ -44,8 +44,7 @@ public class PvpMatch extends EntityDate {
     @Nullable
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
-            name = "winner_id",
-            nullable = false)
+            name = "winner_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Member winner;
 
