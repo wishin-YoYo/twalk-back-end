@@ -29,14 +29,14 @@ public class PvpMatch extends EntityDate {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
-            name = "requester_id",
+            name = "requester",
             nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Member requester;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
-            name = "receiver_id",
+            name = "receiver",
             nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Member receiver;
