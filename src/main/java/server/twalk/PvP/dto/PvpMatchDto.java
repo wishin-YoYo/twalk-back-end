@@ -30,6 +30,8 @@ public class PvpMatchDto {
 
     String pvpMode;
 
+    double distance;
+
     @Nullable
     LatLonPairDto targetLocation;
 
@@ -51,6 +53,7 @@ public class PvpMatchDto {
                 pvpMatch.getContent(),
                 pvpMatch.getStatus().getStatusType().name(),
                 pvpMatch.getPvpMode().getPvpModeType().name(),
+                pvpMatch.getDistance(),
                 pvpMatch.getTargetLocation()==null?null:LatLonPairDto.toDto(pvpMatch.getTargetLocation()),
                 pvpMatch.getWinner()==null?null : MemberDto.from(pvpMatch.getWinner()),
                 pvpMatch.getCreatedAt(),
@@ -67,6 +70,7 @@ public class PvpMatchDto {
                         pvpMatch.getContent(),
                         pvpMatch.getStatus().getStatusType().name(),
                         pvpMatch.getPvpMode().getPvpModeType().name(),
+                        pvpMatch.getDistance(),
                         pvpMatch.getTargetLocation()==null?null:LatLonPairDto.toDto(pvpMatch.getTargetLocation()),
                         pvpMatch.getWinner()==null?null : MemberDto.from(pvpMatch.getWinner()),
                         pvpMatch.getCreatedAt(),
