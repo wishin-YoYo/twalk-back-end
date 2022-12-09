@@ -13,6 +13,7 @@ import java.util.List;
 public interface JalkingRepository extends JpaRepository<Jalking , Long> {
     List<Jalking> findByRequesterOrderByCreatedAtDesc(Member member);
     List<Jalking> findByReceiverOrderByCreatedAtDesc(Member member);
+
     @Query(
             "select i from Jalking " +
                     "i where i IN (:jalking) order by i.createdAt desc"

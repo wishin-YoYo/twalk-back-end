@@ -11,6 +11,7 @@ import server.twalk.Member.service.MemberService;
 import server.twalk.PvP.dto.PvpReq;
 import server.twalk.Walking.dto.request.JalkingReq;
 import server.twalk.Walking.dto.request.WalkingReq;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 
@@ -139,7 +140,7 @@ public class MemberController {
     ) {
         return Response.success(memberService.readReceivedPvps(id));
     }
-
+    @ApiIgnore
     @PostMapping("/sogang")
     @ResponseStatus(HttpStatus.OK)
     public Response memberSogang(
@@ -147,7 +148,7 @@ public class MemberController {
         memberService.memberSogang();
         return Response.success();
     }
-
+    @ApiIgnore
     @PostMapping("/ifc")
     @ResponseStatus(HttpStatus.OK)
     public Response memberIFC(
@@ -163,6 +164,15 @@ public class MemberController {
             @PathVariable Long id
     ) {
         return Response.success(memberService.readMyJalking(id));
+    }
+
+    @ApiOperation(value = "내 pvp 기록 조회", notes = "내 pvp 중 완료된 것 리스트")
+    @GetMapping("/pvp/user/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Response myPvp(
+            @PathVariable Long id
+    ) {
+        return Response.success(memberService.readMyPvp(id));
     }
 
 }

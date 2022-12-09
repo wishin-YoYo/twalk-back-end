@@ -10,6 +10,7 @@ import server.twalk.Member.entity.Member;
 import server.twalk.Member.exception.MemberNotFoundException;
 import server.twalk.Member.repository.MemberRepository;
 import server.twalk.PvP.dto.PvpMatchDto;
+import server.twalk.PvP.entity.PvpMatch;
 import server.twalk.PvP.repository.PvpMatchRepository;
 import server.twalk.Walking.dto.JalkingDto;
 import server.twalk.Walking.dto.LatLonPairDto;
@@ -152,9 +153,28 @@ public class MemberService {
 
         jalkingList.addAll(jalkingsRec);
         jalkingList.addAll(jalkingsReq);
-        System.out.println(jalkingList.size()+"\n\n\n\n\n\n\n\n***************\n\n\n\n");
 
         return JalkingDto.toDtoList(jalkingRepository.findByJalkings(new ArrayList<>(jalkingList)));
+    }
+
+    public List<PvpMatchDto>  readMyPvp(Long id) {
+        Member member = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
+        Set<PvpMatch> pvpMatches = new HashSet<>();
+
+        List<PvpMatch> pvpRec = pvpMatchRepository.findByReceiverOrderByCreatedAtDesc(member).stream()
+                .filter( jalking -> jalking.getStatus().getStatusType().name().equals("COMPLETE") )
+                .collect(Collectors.toList());
+        System.out.println("=======================N+1 (1)===========================\n\n\n");
+        List<PvpMatch> pvpReq = pvpMatchRepository.findByRequesterOrderByCreatedAtDesc(member).stream()
+                .filter( jalking -> jalking.getStatus().getStatusType().name().equals("COMPLETE") )
+                .collect(Collectors.toList());
+        System.out.println("=======================N+1 (2)===========================\n\n\n");
+        pvpMatches.addAll(pvpRec);
+        pvpMatches.addAll(pvpReq);
+
+        List<PvpMatchDto> pvpMatchDtos = PvpMatchDto.toDtoList(pvpMatchRepository.findByPvpMatches(new ArrayList<>(pvpMatches)));
+        System.out.println("=======================N+1 (3)===========================\n\n\n");
+        return pvpMatchDtos;
     }
 
 

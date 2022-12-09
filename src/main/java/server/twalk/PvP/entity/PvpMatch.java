@@ -63,8 +63,15 @@ public class PvpMatch extends EntityDate {
     @OneToOne(cascade = CascadeType.ALL)
     private LatLonPair targetLocation;
 
+    @Column
+    private double distance = 0.0;
+
     public void setStatus(Status status){
         this.status = status;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
     }
 
     // run 모드라면 도착할 위치

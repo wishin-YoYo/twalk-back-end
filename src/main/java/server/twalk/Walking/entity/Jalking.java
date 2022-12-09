@@ -49,6 +49,10 @@ public class Jalking extends EntityDate {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Status status;
 
+    // float 로 receiver , request 각각의 거리를 구현하기
+    // requester, receiver distance - entity 만들어질 때
+    // jalking distance
+
     // 함께 걸은 거리
     @OneToMany(mappedBy = "jalking", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LatLonPair> latLonPair = new ArrayList<>();
