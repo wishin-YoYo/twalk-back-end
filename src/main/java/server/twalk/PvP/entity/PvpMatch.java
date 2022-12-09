@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Builder
 @Entity
 @Getter
-@Table(name="pvp_match")
+@Table(name="pvpMatch")
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PvpMatch extends EntityDate {
