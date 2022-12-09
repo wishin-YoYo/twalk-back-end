@@ -160,20 +160,20 @@ public class MemberService {
     public List<PvpMatchDto>  readMyPvp(Long id) {
         Member member = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
         Set<PvpMatch> pvpMatches = new HashSet<>();
-
+        System.out.println("\n\n\n=======================N+1 START===========================\n\n\n\n\n\n");
         List<PvpMatch> pvpRec = pvpMatchRepository.findByReceiverOrderByCreatedAtDesc(member).stream()
                 .filter( jalking -> jalking.getStatus().getStatusType().name().equals("COMPLETE") )
                 .collect(Collectors.toList());
-        System.out.println("=======================N+1 (1)===========================\n\n\n");
+        System.out.println("\n\n\n=======================N+1 (1)===========================\n\n\n\n\n\n");
         List<PvpMatch> pvpReq = pvpMatchRepository.findByRequesterOrderByCreatedAtDesc(member).stream()
                 .filter( jalking -> jalking.getStatus().getStatusType().name().equals("COMPLETE") )
                 .collect(Collectors.toList());
-        System.out.println("=======================N+1 (2)===========================\n\n\n");
+        System.out.println("\n\n\n=======================N+1 (2)===========================\n\n\n");
         pvpMatches.addAll(pvpRec);
         pvpMatches.addAll(pvpReq);
-
         List<PvpMatchDto> pvpMatchDtos = PvpMatchDto.toDtoList(pvpMatchRepository.findByPvpMatches(new ArrayList<>(pvpMatches)));
         System.out.println("=======================N+1 (3)===========================\n\n\n");
+        System.out.println("\n\n\n=======================N+1 END===========================\n\n\n\n\n\n");
         return pvpMatchDtos;
     }
 

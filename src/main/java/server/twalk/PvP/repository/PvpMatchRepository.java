@@ -14,7 +14,7 @@ public interface PvpMatchRepository extends JpaRepository<PvpMatch, Long> {
     List<PvpMatch> findByReceiverOrderByCreatedAtDesc(Member member);
 
     @Query(
-            "select i from pvp_match " +
+            "select i from PvpMatch " +
                     "i where i IN (pvpMatch) order by i.createdAt desc"
     )
     List<PvpMatch> findByPvpMatches(@Param("pvpMatch") List<PvpMatch> PvpMatches);
