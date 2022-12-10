@@ -46,8 +46,6 @@ public class PvpServiceTest {
         Member member3 = createMember3();
         PvpMatch pvpMatch = createIFCPvp();
 
-//        given(memberRepository.findById(1L)).willReturn(Optional.of(member1));
-//        given(memberRepository.findById(3L)).willReturn(Optional.of(member3));
         given(pvpMatchRepository.findById(anyLong())).willReturn(Optional.of(pvpMatch));
         given(statusRepository.findByStatusType(StatusType.COMPLETE)).willReturn(Optional.of(createStatusCOMPLETE()));
 

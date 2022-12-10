@@ -1,5 +1,12 @@
 server:
   port: 8081
+  tomcat:
+    threads:
+      max: 1000 # 생성할 수 있는 thread의 총 개수
+      min-spare: 10 # 항상 활성화 되어있는(idle) thread의 개수
+    max-connections: 8000 # 수립가능한 connection의 총 개수
+    accept-count: 100 # 작업큐의 사이즈
+    connection-timeout: 20000 # timeout 판단 기준 시간, 20초
 
 spring:
 
@@ -16,10 +23,11 @@ spring:
     password: qpqpqp0614
     hikari:
     minimumIdle: 2
-    maximumPoolSize: 10
+    maximumPoolSize: 100000 # 다중 유저 처리를 위해 증가시켜줌, 최대 연결 수로 세션이 해제되는 시간을 가지는 세션도 있으므로 넉넉히 설정
     idleTimeout: 120000
     connectionTimeout: 300000
     leakDetectionThreshold: 300000
+
 
   jpa:
     hibernate:

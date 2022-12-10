@@ -105,14 +105,6 @@ public class PvpController {
         return Response.success(pvpService.end(id, winnerId));
     }
 
-    //    1. 사람 움직여주는 api (id, 시작 좌표, 종료 좌표, 이동 시간)
-//    1. 시연 때 API
-//    2. 1번(건) - 3번(동윤 API)
-//    3. 대전 기록이
-//2. pvp 기록 읽어오기, pvp 는 항상 id 1번이 아닌 아이가 이기게 조작하자.
-//
-//    ⇒ pvp targetLocation 에 다다르면
-
     // pvp 이동
     @ApiOperation(value = "pvp 이동 ", notes = "pvp 이동 \n req에 맞춰서 보내주시면 됩니다. ")
     @PutMapping("/pvp/move/{id}")
