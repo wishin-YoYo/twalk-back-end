@@ -8,11 +8,13 @@ import server.twalk.Member.entity.Member;
 import server.twalk.Member.exception.MemberNotFoundException;
 import server.twalk.Member.repository.MemberRepository;
 import server.twalk.PvP.dto.PvpMatchDto;
+import server.twalk.PvP.dto.PvpMoveReq;
 import server.twalk.PvP.dto.PvpReq;
 import server.twalk.PvP.entity.PvpMatch;
 import server.twalk.PvP.entity.PvpMode;
 import server.twalk.PvP.entity.PvpModeType;
 import server.twalk.PvP.entity.StatusType;
+import server.twalk.PvP.exception.PvpNotFoundException;
 import server.twalk.PvP.repository.PvpMatchRepository;
 import server.twalk.PvP.repository.PvpModeRepository;
 import server.twalk.PvP.repository.StatusRepository;
@@ -22,7 +24,9 @@ import server.twalk.Walking.exception.JalkingNotFoundException;
 import server.twalk.Walking.exception.LatLonPairNotFoundException;
 import server.twalk.Walking.exception.StatusNotFoundException;
 import server.twalk.Walking.repository.LatLonPairRepository;
+import server.twalk.Walking.service.WalkingCommonService;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -121,7 +125,7 @@ public class PvPService {
     @Transactional
     public IdResponse end(Long pvpId, Long winnerId) {
 
-        PvpMatch pvpMatch = pvpMatchRepository.findById(pvpId).orElseThrow(JalkingNotFoundException::new);
+        PvpMatch pvpMatch = pvpMatchRepository.findById(pvpId).orElseThrow(PvpNotFoundException::new);
         pvpMatch.setStatus(statusRepository.findByStatusType(StatusType.COMPLETE).orElseThrow(StatusNotFoundException::new));
 
         Member requester = pvpMatch.getRequester();
@@ -138,6 +142,37 @@ public class PvPService {
         };
         return new IdResponse(pvpMatch.getId());
 
+    }
+
+    @Transactional
+    public Long move(Long pvpId, PvpMoveReq req) throws InterruptedException {
+        PvpMatch pvp = pvpMatchRepository.findById(pvpId).orElseThrow(PvpNotFoundException::new);
+        Member mover = null;
+        LatLonPair targetLocation = pvp.getTargetLocation();
+        int time = 0; // 일정 시간동안 돌 것
+
+        if(pvp.getReceiver().equals(1L)){
+            mover = pvp.getRequester();
+        }else{
+            mover = pvp.getReceiver();
+        }
+
+        // req.getTime() 초 만큼 for 문 돌면서 thread sleep 하면서 유저 current 위치 변경
+
+        List<LatLonPair> moveList = WalkingCommonService.interiorDivision(
+                targetLocation.getLat(), targetLocation.getLon(),
+                mover.getLatLonPair().getLat(), mover.getLatLonPair().getLon(),
+                req.getTime()
+        );
+        while ( time < moveList.size() ){
+            Thread.sleep(1000); // 1초마다 이동한다.
+            mover.updateMyLocation(moveList.get(time));
+            time++;
+        }
+        mover.updateMyLocation(new LatLonPair(targetLocation.getLat(), targetLocation.getLon()));
+        end(pvpId, mover.getId()); // pvp 종료되고 mover 가 승리자가 된다.
+        //System.out.println(mover.getWins() + " 이긴 애" + mover.getId());
+        return mover.getId();
     }
 
 }

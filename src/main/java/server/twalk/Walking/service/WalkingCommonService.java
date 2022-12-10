@@ -2,6 +2,11 @@ package server.twalk.Walking.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import server.twalk.Walking.entity.LatLonPair;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 @Service
@@ -17,9 +22,9 @@ public class WalkingCommonService {
         dist = dist * 60 * 1.1515;
 
         // 단위 별로 계산 값 다르게 해주는 과정
-        if (unit == "kilometer") {
+        if (Objects.equals(unit, "kilometer")) {
             dist = dist * 1.609344;
-        } else if(unit == "meter"){
+        } else if(Objects.equals(unit, "meter")){
             dist = dist * 1609.344;
         }
         return (dist);
@@ -36,4 +41,20 @@ public class WalkingCommonService {
     }
 
     // 출처 : https://fruitdev.tistory.com/189
+
+    public static List<LatLonPair> interiorDivision(double lat1, double lon1, double lat2, double lon2, int time){
+        // m:n 내분
+        List<LatLonPair> returnLatLonPair = new ArrayList<>();
+        double m = 1;
+        double n = time-1;
+
+        while(m<=n) {
+            double q = (n * lat1 + m * lat2) / (m + n);
+            double r = (n * lon1 + m * lon2) / (m + n);
+            System.out.println(q + " " + r + " \n");
+            returnLatLonPair.add(new LatLonPair(q,r));
+            m++;
+        }
+        return returnLatLonPair;
+    }
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import server.twalk.Common.entity.response.Response;
 import server.twalk.Member.exception.MemberNotFoundException;
 import server.twalk.Member.exception.MemberNotWalkingException;
+import server.twalk.PvP.exception.PvpNotFoundException;
 import server.twalk.Socket.exception.SocketRoomRefreshException;
 import server.twalk.Walking.exception.JalkingNotFoundException;
 import server.twalk.Walking.exception.LatLonPairNotFoundException;
@@ -57,6 +58,13 @@ public class ExceptionAdvice {
     public Response LatLonPairNotFoundException(LatLonPairNotFoundException e) {
         log.info("e = {}", e.getMessage());
         return Response.failure(404, " Lat Lon Pair Not Found Exception ");
+    }
+
+    @ExceptionHandler(PvpNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Response PvpNotFoundException(PvpNotFoundException e) {
+        log.info("e = {}", e.getMessage());
+        return Response.failure(404, " Pvp Not Found ");
     }
 
 }

@@ -5,15 +5,11 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import server.twalk.Common.entity.response.Response;
+import server.twalk.PvP.dto.PvpMoveReq;
 import server.twalk.PvP.dto.PvpReq;
-import server.twalk.PvP.entity.StatusType;
 import server.twalk.PvP.service.PvPService;
-import server.twalk.Walking.entity.Jalking;
-import server.twalk.Walking.exception.JalkingNotFoundException;
-import server.twalk.Walking.exception.StatusNotFoundException;
 
 import javax.validation.Valid;
 
@@ -102,6 +98,18 @@ public class PvpController {
             @PathVariable Long winnerId
     ) {
         return Response.success(pvpService.end(id, winnerId));
+    }
+
+    // pvp 이동
+    @ApiOperation(value = "pvp 이동 ", notes = "pvp 이동 \n req에 맞춰서 보내주시면 됩니다. ")
+    @PutMapping("/pvp/move/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Response move(
+            @PathVariable Long id,
+            @Valid @ModelAttribute PvpMoveReq req
+    ) throws InterruptedException {
+        pvpService.move(id, req);
+        return Response.success();
     }
 
 }
