@@ -14,11 +14,9 @@ import server.twalk.PvP.controller.PvpController;
 import server.twalk.PvP.dto.PvpReq;
 import server.twalk.PvP.service.PvPService;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -26,7 +24,7 @@ public class PvpControllerTest {
     @InjectMocks
     PvpController pvpController;
     @Mock
-    PvPService pvPService;
+    PvPService pvPService; // 이거 삭제하면 정상 작동 X
     MockMvc mockMvc;
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -61,6 +59,55 @@ public class PvpControllerTest {
                             get("/pvp/{id}", id))
                     .andExpect(status().isOk());
         }
+
+    @Test
+    void PVP_승인() throws Exception {
+        // given
+        PvpReq req = createPvpReq();
+
+
+        // when, then
+        mockMvc.perform(
+                        put("/pvp-approve/{id}", 1L)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(req)))
+                .andExpect(status().isOk());
+
+
+    }
+
+    @Test
+    void PVP_거절() throws Exception {
+        // given
+        PvpReq req = createPvpReq();
+
+
+        // when, then
+        mockMvc.perform(
+                        put("/pvp-reject/{id}", 1L)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(req)))
+                .andExpect(status().isOk());
+
+
+    }
+
+
+    @Test
+    void PVP_삭제() throws Exception {
+        // given
+        PvpReq req = createPvpReq();
+
+
+        // when, then
+        mockMvc.perform(
+                        put("/pvp-delete/{id}", 1L)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(req)))
+                .andExpect(status().isNotFound());
+
+
+    }
 
     PvpReq createPvpReq(){
         return new PvpReq();
