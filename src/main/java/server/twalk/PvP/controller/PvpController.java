@@ -10,11 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import server.twalk.Common.entity.response.Response;
 import server.twalk.PvP.dto.PvpMoveReq;
 import server.twalk.PvP.dto.PvpReq;
-import server.twalk.PvP.entity.StatusType;
 import server.twalk.PvP.service.PvPService;
-import server.twalk.Walking.entity.Jalking;
-import server.twalk.Walking.exception.JalkingNotFoundException;
-import server.twalk.Walking.exception.StatusNotFoundException;
 
 import javax.validation.Valid;
 
