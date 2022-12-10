@@ -50,7 +50,7 @@ public class PvpServiceTest {
         given(statusRepository.findByStatusType(StatusType.COMPLETE)).willReturn(Optional.of(createStatusCOMPLETE()));
 
         //when
-        Long winnerId = pvpService.move(pvpMatch.getId(), new PvpMoveReq(pvpMatch.getId(),10));
+        Long winnerId = pvpService.move(pvpMatch.getId(), new PvpMoveReq(10));
 
         assertEquals(3L, winnerId);
     }
