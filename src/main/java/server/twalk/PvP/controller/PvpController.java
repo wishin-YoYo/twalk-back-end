@@ -101,7 +101,7 @@ public class PvpController {
     }
 
     // pvp 이동
-    @ApiOperation(value = "pvp 이동 ", notes = "pvp 이동 \n req에 맞춰서 보내주시면 됩니다. ")
+    @ApiOperation(value = "pvp 이동 ", notes = "pvp 이동 \n id 에는 pvp id, body 에는 time(초 기준) 보내주시면 됩니다. ")
     @PutMapping("/pvp/move/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Response move(
