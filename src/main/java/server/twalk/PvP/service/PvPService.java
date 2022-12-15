@@ -148,7 +148,7 @@ public class PvPService {
 
     }
 
-    //@Transactional
+    @Transactional
     public Long move(Long pvpId, PvpMoveReq req) throws InterruptedException {
         PvpMatch pvp = pvpMatchRepository.findById(pvpId).orElseThrow(PvpNotFoundException::new);
         Member mover = null;

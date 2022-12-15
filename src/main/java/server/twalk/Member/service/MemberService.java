@@ -42,7 +42,7 @@ public class MemberService {
 
     // 멤버의 정보를 전달해주는 것
     public MemberDto read(Long id){
-        Member member = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
+        Member member = memberRepository.findByIdCustom(id).orElseThrow(MemberNotFoundException::new);
         return MemberDto.from(member);
     }
 
