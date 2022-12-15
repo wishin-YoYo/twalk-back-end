@@ -7,11 +7,15 @@ import server.twalk.Common.entity.response.IdResponse;
 import server.twalk.Member.entity.Member;
 import server.twalk.Member.exception.MemberNotFoundException;
 import server.twalk.Member.repository.MemberRepository;
+import server.twalk.PvP.dto.PvpMoveReq;
+import server.twalk.PvP.entity.PvpMatch;
 import server.twalk.PvP.entity.StatusType;
+import server.twalk.PvP.exception.PvpNotFoundException;
 import server.twalk.PvP.repository.StatusRepository;
 import server.twalk.Walking.dto.JalkingDto;
 import server.twalk.Walking.dto.request.JalkingReq;
 import server.twalk.Walking.entity.Jalking;
+import server.twalk.Walking.entity.LatLonPair;
 import server.twalk.Walking.exception.JalkingNotFoundException;
 import server.twalk.Walking.exception.StatusNotFoundException;
 import server.twalk.Walking.repository.JalkingRepository;
@@ -93,6 +97,43 @@ public class JalkingService {
         jalking.setStatus(statusRepository.findByStatusType(StatusType.COMPLETE).orElseThrow(StatusNotFoundException::new));
         return jalking.getId();
 
+    }
+
+
+    @Transactional
+    public Long move( Long jId ) throws InterruptedException {
+        Jalking jalking = jalkingRepository.findById(jId).orElseThrow(PvpNotFoundException::new);
+        Member mover = null;
+        Member notMover = null;
+
+        int time = 0; // 일정 시간동안 돌 것
+
+        if(jalking.getReceiver().equals(1L)){
+            mover = jalking.getRequester();
+            notMover = jalking.getReceiver();
+        }else{
+            mover = jalking.getReceiver();
+            notMover = jalking.getRequester();
+        }
+
+        LatLonPair targetLocation = notMover.getLatLonPair();
+
+        // req.getTime() 초 만큼 for 문 돌면서 thread sleep 하면서 유저 current 위치 변경
+
+        List<LatLonPair> moveList = WalkingCommonService.interiorDivision(
+                targetLocation.getLat(), targetLocation.getLon(),
+                mover.getLatLonPair().getLat(), mover.getLatLonPair().getLon(),
+                30
+        );
+        while ( time < moveList.size() ){
+            Thread.sleep(1000); // 1초마다 이동한다.
+            mover.updateMyLocation(moveList.get(time));
+            time++;
+        }
+        mover.updateMyLocation(new LatLonPair(targetLocation.getLat(), targetLocation.getLon()));
+        end(jId); // jalking 종료되고 mover 가 승리자가 된다.
+        //System.out.println(mover.getWins() + " 이긴 애" + mover.getId());
+        return mover.getId();
     }
 
 }
