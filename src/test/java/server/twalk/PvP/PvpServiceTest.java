@@ -38,22 +38,22 @@ public class PvpServiceTest {
     @Mock
     PvpModeRepository pvpModeRepository;
 
-    @Test
-    @Transactional
-    void moveTest() throws InterruptedException {
-        // given
-        Member member1 = createMember1();
-        Member member3 = createMember3();
-        PvpMatch pvpMatch = createIFCPvp();
-
-        given(pvpMatchRepository.findById(anyLong())).willReturn(Optional.of(pvpMatch));
-        given(statusRepository.findByStatusType(StatusType.COMPLETE)).willReturn(Optional.of(createStatusCOMPLETE()));
-
-        //when
-        Long winnerId = pvpService.move(pvpMatch.getId(), new PvpMoveReq(10));
-
-        assertEquals(3L, winnerId);
-    }
+//    @Test
+//    @Transactional
+//    void moveTest() throws InterruptedException {
+//        // given
+//        Member member1 = createMember1();
+//        Member member3 = createMember3();
+//        PvpMatch pvpMatch = createIFCPvp();
+//
+//        given(pvpMatchRepository.findById(anyLong())).willReturn(Optional.of(pvpMatch));
+//        given(statusRepository.findByStatusType(StatusType.COMPLETE)).willReturn(Optional.of(createStatusCOMPLETE()));
+//
+//        //when
+//        Long winnerId = pvpService.move(pvpMatch.getId(), new PvpMoveReq(10));
+//
+//        assertEquals(3L, winnerId);
+//    }
 
     private Member createMember3() {
         return new Member(
