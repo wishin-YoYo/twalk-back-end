@@ -18,6 +18,7 @@ import server.twalk.PvP.exception.PvpNotFoundException;
 import server.twalk.PvP.repository.PvpMatchRepository;
 import server.twalk.PvP.repository.PvpModeRepository;
 import server.twalk.PvP.repository.StatusRepository;
+import server.twalk.Walking.dto.LatLonPairDto;
 import server.twalk.Walking.dto.request.JalkingReq;
 import server.twalk.Walking.entity.LatLonPair;
 import server.twalk.Walking.exception.JalkingNotFoundException;
@@ -165,7 +166,8 @@ public class PvPService {
         return returnLatLonPair;
     }
 
-    public Long move(Long pvpId, PvpMoveReq req) throws InterruptedException {
+    @Transactional
+    public List<LatLonPairDto> move(Long pvpId, PvpMoveReq req) throws InterruptedException {
         PvpMatch pvp = pvpMatchRepository.findById(pvpId).orElseThrow(PvpNotFoundException::new);
         Member mover = null;
         LatLonPair targetLocation = pvp.getTargetLocation();
@@ -192,10 +194,11 @@ public class PvPService {
             System.out.println("현재 시간 : " + LocalTime.now() + "현재 user 위치 : " + mover.getLatLonPair().getId() + "user 이동 몇번째 ? "+time +"\n");
             time++;
         }
+        moveList.add(new LatLonPair(targetLocation.getLat(), targetLocation.getLon()));
         mover.updateMyLocation(new LatLonPair(targetLocation.getLat(), targetLocation.getLon()));
         end(pvpId, mover.getId()); // pvp 종료되고 mover 가 승리자가 된다.
         //System.out.println(mover.getWins() + " 이긴 애" + mover.getId());
-        return mover.getId();
+        return LatLonPairDto.toDtoList(moveList);
     }
 
 }

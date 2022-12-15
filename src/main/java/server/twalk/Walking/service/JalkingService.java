@@ -13,6 +13,7 @@ import server.twalk.PvP.entity.StatusType;
 import server.twalk.PvP.exception.PvpNotFoundException;
 import server.twalk.PvP.repository.StatusRepository;
 import server.twalk.Walking.dto.JalkingDto;
+import server.twalk.Walking.dto.LatLonPairDto;
 import server.twalk.Walking.dto.request.JalkingReq;
 import server.twalk.Walking.entity.Jalking;
 import server.twalk.Walking.entity.LatLonPair;
@@ -118,7 +119,8 @@ public class JalkingService {
         return returnLatLonPair;
     }
 
-    public Long move( Long jId ) throws InterruptedException {
+    @Transactional
+    public List<LatLonPairDto> move(Long jId ) throws InterruptedException {
         Jalking jalking = jalkingRepository.findById(jId).orElseThrow(PvpNotFoundException::new);
         Member mover = null;
         Member notMover = null;
@@ -148,10 +150,11 @@ public class JalkingService {
             mover.updateMyLocation(latLonPair);
             time++;
         }
+        moveList.add(new LatLonPair(targetLocation.getLat(), targetLocation.getLon()));
         mover.updateMyLocation(new LatLonPair(targetLocation.getLat(), targetLocation.getLon()));
         end(jId); // jalking 종료되고 mover 가 승리자가 된다.
         //System.out.println(mover.getWins() + " 이긴 애" + mover.getId());
-        return mover.getId();
+        return LatLonPairDto.toDtoList(moveList);
     }
 
 }
