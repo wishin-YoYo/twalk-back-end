@@ -1,6 +1,6 @@
 package server.twalk.Member.repository;
 
-import org.springframework.data.jdbc.repository.query.Modifying;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,7 +17,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     )
     Optional<Member> findByIdCustom(@Param("id")Long id);
 
-    @Modifying
+
+    @Modifying(clearAutomatically = true)
     @Transactional
     @Query("update Member m set m.latLonPair = :l where m.id = :id")
     void latLonPairUpdate(@Param("l") LatLonPair l, @Param("id") Long id);
