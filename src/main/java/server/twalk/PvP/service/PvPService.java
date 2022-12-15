@@ -27,6 +27,7 @@ import server.twalk.Walking.repository.LatLonPairRepository;
 import server.twalk.Walking.service.WalkingCommonService;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -148,7 +149,22 @@ public class PvPService {
 
     }
 
-    @Transactional
+    public static List<LatLonPair> interiorDivision(double lat1, double lon1, double lat2, double lon2, int time){
+        // m:n 내분
+        List<LatLonPair> returnLatLonPair = new ArrayList<>();
+        double m = 1;
+        double n = time-1;
+
+        while(m<=n) {
+            double q = (n * lat1 + m * lat2) / (m + n);
+            double r = (n * lon1 + m * lon2) / (m + n);
+            System.out.println(q + " " + r + " \n");
+            returnLatLonPair.add(new LatLonPair(q,r));
+            m++;
+        }
+        return returnLatLonPair;
+    }
+
     public Long move(Long pvpId, PvpMoveReq req) throws InterruptedException {
         PvpMatch pvp = pvpMatchRepository.findById(pvpId).orElseThrow(PvpNotFoundException::new);
         Member mover = null;
@@ -163,7 +179,7 @@ public class PvPService {
 
         // req.getTime() 초 만큼 for 문 돌면서 thread sleep 하면서 유저 current 위치 변경
 
-        List<LatLonPair> moveList = WalkingCommonService.interiorDivision(
+        List<LatLonPair> moveList = interiorDivision(
                 targetLocation.getLat(), targetLocation.getLon(),
                 mover.getLatLonPair().getLat(), mover.getLatLonPair().getLon(),
                 req.getTime()
