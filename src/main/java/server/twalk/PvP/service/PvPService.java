@@ -170,7 +170,8 @@ public class PvPService {
         );
         while ( time < moveList.size() ){
             Thread.sleep(1000); // 1초마다 이동한다.
-            mover.updateMyLocation(moveList.get(time));
+            LatLonPair latLonPair = latLonPairRepository.save(moveList.get(time));
+            mover.updateMyLocation(latLonPair);
             System.out.println("현재 시간 : " + LocalTime.now() + "현재 user 위치 : " + mover.getLatLonPair().getId() + "user 이동 몇번째 ? "+time +"\n");
             time++;
         }
