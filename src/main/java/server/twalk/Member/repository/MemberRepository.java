@@ -19,7 +19,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     @Modifying
     @Transactional
-    @Query("UPDATE Member m SET m.latLonPair = :l WHERE m.id = :id")
+    @Query("update Member m set m.latLonPair = :l where m.id = :id")
     void latLonPairUpdate(@Param("l") LatLonPair l, @Param("id") Long id);
 
 }
