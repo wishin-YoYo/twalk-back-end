@@ -186,14 +186,16 @@ public class PvPService {
                 mover.getLatLonPair().getLat(), mover.getLatLonPair().getLon(),
                 req.getTime()
         );
-//        while ( time < moveList.size() ){
-//            Thread.sleep(1000); // 1초마다 이동한다.
-//            LatLonPair latLonPair = latLonPairRepository.save(moveList.get(time));
-//            mover.updateMyLocation(latLonPair);
-//
-//            System.out.println("현재 시간 : " + LocalTime.now() + "현재 user 위치 : " + mover.getLatLonPair().getId() + "user 이동 몇번째 ? "+time +"\n");
-//            time++;
-//        }
+
+        while ( time < moveList.size() ){
+            Thread.sleep(1000); // 1초마다 이동한다.
+            LatLonPair latLonPair = latLonPairRepository.save(moveList.get(time));
+            mover.updateMyLocation(latLonPair);
+            memberRepository.latLonPairUpdate(latLonPair, mover.getId() );
+
+            System.out.println("현재 시간 : " + LocalTime.now() + "현재 user 위치 : " + mover.getLatLonPair().getId() + "user 이동 몇번째 ? "+time +"\n");
+            time++;
+        }
         moveList.add(new LatLonPair(targetLocation.getLat(), targetLocation.getLon()));
         mover.updateMyLocation(new LatLonPair(targetLocation.getLat(), targetLocation.getLon()));
         end(pvpId, mover.getId()); // pvp 종료되고 mover 가 승리자가 된다.
