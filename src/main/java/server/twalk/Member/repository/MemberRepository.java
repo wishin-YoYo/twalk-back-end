@@ -15,6 +15,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findByIdCustom(@Param("id")Long id);
 
     @Query("UPDATE Member m SET m.latLonPair = :l WHERE m.id = :id")
-    Optional<Member> latLonPairUpdate(@Param("id") LatLonPair l, Long id);
+    void latLonPairUpdate(@Param("l") LatLonPair l, @Param("id") Long id);
 
 }
