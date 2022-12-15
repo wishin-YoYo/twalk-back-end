@@ -94,8 +94,8 @@ public class JalkingController {
     public Response move(
             @PathVariable Long id
     ) throws InterruptedException {
-        jalkingService.move(id);
-        return Response.success();
+
+        return Response.success(jalkingService.move(id););
     }
 
 }
