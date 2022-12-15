@@ -155,7 +155,7 @@ public class PvPService {
         LatLonPair targetLocation = pvp.getTargetLocation();
         int time = 0; // 일정 시간동안 돌 것
 
-        if(pvp.getReceiver().equals(1L)){
+        if(pvp.getReceiver().getId().equals(1L)){
             mover = pvp.getRequester();
         }else{
             mover = pvp.getReceiver();

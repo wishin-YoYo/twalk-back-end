@@ -110,7 +110,7 @@ public class JalkingService {
 
         int time = 0; // 일정 시간동안 돌 것
 
-        if(jalking.getReceiver().equals(1L)){
+        if(jalking.getReceiver().getId().equals(1L)){
             mover = jalking.getRequester();
             notMover = jalking.getReceiver();
         }else{
