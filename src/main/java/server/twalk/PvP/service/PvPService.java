@@ -26,6 +26,7 @@ import server.twalk.Walking.exception.StatusNotFoundException;
 import server.twalk.Walking.repository.LatLonPairRepository;
 import server.twalk.Walking.service.WalkingCommonService;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -170,6 +171,7 @@ public class PvPService {
         while ( time < moveList.size() ){
             Thread.sleep(1000); // 1초마다 이동한다.
             mover.updateMyLocation(moveList.get(time));
+            System.out.println("현재 시간 : " + LocalTime.now() + "현재 user 위치 : " + mover.getLatLonPair().getId() + "user 이동 몇번째 ? "+time +"\n");
             time++;
         }
         mover.updateMyLocation(new LatLonPair(targetLocation.getLat(), targetLocation.getLon()));
