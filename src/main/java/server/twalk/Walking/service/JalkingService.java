@@ -19,6 +19,7 @@ import server.twalk.Walking.entity.LatLonPair;
 import server.twalk.Walking.exception.JalkingNotFoundException;
 import server.twalk.Walking.exception.StatusNotFoundException;
 import server.twalk.Walking.repository.JalkingRepository;
+import server.twalk.Walking.repository.LatLonPairRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +31,7 @@ public class JalkingService {
     private final JalkingRepository jalkingRepository;
     private final MemberRepository memberRepository;
     private final StatusRepository statusRepository;
+    private final LatLonPairRepository latLonPairRepository;
 
     // jalking 생성(요청)
     @Transactional
@@ -127,7 +129,8 @@ public class JalkingService {
         );
         while ( time < moveList.size() ){
             Thread.sleep(1000); // 1초마다 이동한다.
-            mover.updateMyLocation(moveList.get(time));
+            LatLonPair latLonPair = latLonPairRepository.save(moveList.get(time));
+            mover.updateMyLocation(latLonPair);
             time++;
         }
         mover.updateMyLocation(new LatLonPair(targetLocation.getLat(), targetLocation.getLon()));
