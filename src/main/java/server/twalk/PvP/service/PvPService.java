@@ -148,7 +148,7 @@ public class PvPService {
 
     }
 
-    @Transactional
+    //@Transactional
     public Long move(Long pvpId, PvpMoveReq req) throws InterruptedException {
         PvpMatch pvp = pvpMatchRepository.findById(pvpId).orElseThrow(PvpNotFoundException::new);
         Member mover = null;
@@ -172,6 +172,7 @@ public class PvPService {
             Thread.sleep(1000); // 1초마다 이동한다.
             LatLonPair latLonPair = latLonPairRepository.save(moveList.get(time));
             mover.updateMyLocation(latLonPair);
+
             System.out.println("현재 시간 : " + LocalTime.now() + "현재 user 위치 : " + mover.getLatLonPair().getId() + "user 이동 몇번째 ? "+time +"\n");
             time++;
         }
