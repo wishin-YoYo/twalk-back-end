@@ -144,12 +144,12 @@ public class JalkingService {
                 mover.getLatLonPair().getLat(), mover.getLatLonPair().getLon(),
                 30
         );
-        while ( time < moveList.size() ){
-            Thread.sleep(1000); // 1초마다 이동한다.
-            LatLonPair latLonPair = latLonPairRepository.save(moveList.get(time));
-            mover.updateMyLocation(latLonPair);
-            time++;
-        }
+//        while ( time < moveList.size() ){
+//            Thread.sleep(1000); // 1초마다 이동한다.
+//            LatLonPair latLonPair = latLonPairRepository.save(moveList.get(time));
+//            mover.updateMyLocation(latLonPair);
+//            time++;
+//        }
         moveList.add(new LatLonPair(targetLocation.getLat(), targetLocation.getLon()));
         mover.updateMyLocation(new LatLonPair(targetLocation.getLat(), targetLocation.getLon()));
         end(jId); // jalking 종료되고 mover 가 승리자가 된다.

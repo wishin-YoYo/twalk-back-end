@@ -108,8 +108,8 @@ public class PvpController {
             @PathVariable Long id,
             @Valid @ModelAttribute PvpMoveReq req
     ) throws InterruptedException {
-        pvpService.move(id, req);
-        return Response.success();
+
+        return Response.success(pvpService.move(id, req));
     }
 
 }
