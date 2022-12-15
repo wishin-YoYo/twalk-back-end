@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import server.twalk.Common.entity.response.Response;
+import server.twalk.PvP.dto.PvpMoveReq;
 import server.twalk.Walking.dto.request.JalkingReq;
 import server.twalk.Walking.dto.request.WalkingReq;
 import server.twalk.Walking.service.JalkingService;
@@ -85,6 +86,16 @@ public class JalkingController {
         return Response.success(
                 jalkingService.end(id)
         );
+    }
+
+    @ApiOperation(value = "jalking 이동 ", notes = "jalking 이동 \n id 에는 jalking id 보내주시면 됩니다. ")
+    @PutMapping("/jalking/move/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Response move(
+            @PathVariable Long id
+    ) throws InterruptedException {
+        jalkingService.move(id);
+        return Response.success();
     }
 
 }
