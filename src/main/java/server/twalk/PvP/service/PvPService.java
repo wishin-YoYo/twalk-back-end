@@ -54,11 +54,14 @@ public class PvPService {
 
         LatLonPair targetLocation = null;
 
-        if(pvpMode.getPvpModeType().name().equals("SOGANG")){
-            targetLocation = latLonPairRepository.findById(30000000001L).orElseThrow(LatLonPairNotFoundException::new);
-        }else if(pvpMode.getPvpModeType().name().equals("IFC")) {
-            targetLocation = latLonPairRepository.findById(30000000002L).orElseThrow(LatLonPairNotFoundException::new);
+        Long targetLocationId = null;
+        if(receivedMember.getId()!=1L){
+            targetLocationId = 40000000000l + receivedMember.getId();
+        }else{
+            targetLocationId = 40000000000l + requestMember.getId();
         }
+
+        targetLocation = latLonPairRepository.findById(targetLocationId).orElseThrow(LatLonPairNotFoundException::new);
 
         PvpMatch pvpMatch = pvpMatchRepository.save(
                 PvpMatch.builder()
