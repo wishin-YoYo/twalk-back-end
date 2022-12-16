@@ -190,6 +190,7 @@ public class PvPService {
         while ( time < moveList.size() ){
             LatLonPair latLonPair = latLonPairRepository.save(moveList.get(time));
             ids.add(latLonPair.getId());
+            time++;
         }
         time = 0;
         while ( time < ids.size() ){
