@@ -9,10 +9,4 @@ import server.twalk.Walking.entity.LatLonPair;
 
 public interface LatLonPairRepository extends JpaRepository<LatLonPair, Long> {
 
-    @Transactional
-    @Modifying
-    @Query(value = "insert into LatLong ([컬럼명]) " +
-            "select [컬럼명] from table_nm2 where table_nm2.idx = :idx", nativeQuery = true)
-    void insertIntoSelect(@Param("idx") Long idx);
-
 }

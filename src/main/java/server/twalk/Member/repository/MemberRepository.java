@@ -17,10 +17,10 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     )
     Optional<Member> findByIdCustom(@Param("id")Long id);
 
-
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query("update Member m set m.latLonPair = :l where m.id = :id")
     void latLonPairUpdate(@Param("l") LatLonPair l, @Param("id") Long id);
+
 
 }
