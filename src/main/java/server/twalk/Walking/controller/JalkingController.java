@@ -99,7 +99,7 @@ public class JalkingController {
     }
 
     @ApiOperation(value = "latlonid")
-    @PutMapping("/pvp/movel/{id}/{lid}")
+    @PutMapping("/jalking/movel/{id}/{lid}")
     @ResponseStatus(HttpStatus.OK)
     public Response move(
             @PathVariable Long id,
