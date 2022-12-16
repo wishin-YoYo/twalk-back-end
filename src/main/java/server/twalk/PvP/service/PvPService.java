@@ -1,6 +1,7 @@
 package server.twalk.PvP.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import server.twalk.Common.entity.response.IdResponse;
@@ -202,24 +203,35 @@ public class PvPService {
 //            System.out.println("현재 시간 : " + LocalTime.now() + "현재 user 위치 : " + mover.getLatLonPair().getId() + "user 이동 몇번째 ? "+time +"\n");
 //            time++;
 //        }
-        update(mover, ids);
+//        update(mover, ids);
+        Thread.sleep(20000); // 15초 안에 내가 10번 하기
         moveList.add(new LatLonPair(targetLocation.getLat(), targetLocation.getLon()));
         mover.updateMyLocation(new LatLonPair(targetLocation.getLat(), targetLocation.getLon()));
         end(pvpId, mover.getId()); // pvp 종료되고 mover 가 승리자가 된다.
         //System.out.println(mover.getWins() + " 이긴 애" + mover.getId());
         return LatLonPairDto.toDtoList(moveList);
     }
+//
+//    public void update(Member mover, List<Long> ids) throws InterruptedException {
+//        int time=0;
+//            while ( time < ids.size() ) {
+//                Thread.sleep(1000); // 1초마다 이동한다.
+//                LatLonPair latLonPair = latLonPairRepository.findById(ids.get(time))
+//                        .orElseThrow(LatLonPairNotFoundException::new);
+//                mover.updateMyLocation(latLonPair);
+//                memberRepository.latLonPairUpdate(latLonPair, mover.getId());
+//                System.out.println("현재 시간 : " + LocalTime.now() + "현재 user 위치 : " + mover.getLatLonPair().getId() + "user 이동 몇번째 ? " + time + "\n");
+//                time++;
+//            }
+//    }
 
-    public void update(Member mover, List<Long> ids) throws InterruptedException {
-        int time=0;
-            while ( time < ids.size() ) {
-                Thread.sleep(1000); // 1초마다 이동한다.
-                LatLonPair latLonPair = latLonPairRepository.findById(ids.get(time))
-                        .orElseThrow(LatLonPairNotFoundException::new);
-                mover.updateMyLocation(latLonPair);
-                memberRepository.latLonPairUpdate(latLonPair, mover.getId());
-                System.out.println("현재 시간 : " + LocalTime.now() + "현재 user 위치 : " + mover.getLatLonPair().getId() + "user 이동 몇번째 ? " + time + "\n");
-                time++;
-            }
+    @Transactional
+    public Long updateSeperate(Long pvpId, Long lid) throws InterruptedException {
+        LatLonPair latLonPair = latLonPairRepository.findById(lid).orElseThrow(LatLonPairNotFoundException::new);
+        PvpMatch pvp = pvpMatchRepository.findById(pvpId).orElseThrow(PvpNotFoundException::new);
+        Member mover = pvp.getRequester();
+        mover.updateMyLocation(latLonPair);
+        return pvpId;
     }
+
 }

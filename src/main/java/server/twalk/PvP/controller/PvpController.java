@@ -112,4 +112,15 @@ public class PvpController {
         return Response.success(pvpService.move(id, req));
     }
 
+    @ApiOperation(value = "latlonid")
+    @PutMapping("/pvp/movel/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Response move(
+            @PathVariable Long id,
+            @PathVariable Long lid
+    ) throws InterruptedException {
+
+        return Response.success(pvpService.updateSeperate(id, lid));
+    }
+
 }
