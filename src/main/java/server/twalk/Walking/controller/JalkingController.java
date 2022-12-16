@@ -98,4 +98,15 @@ public class JalkingController {
         return Response.success(jalkingService.move(id));
     }
 
+    @ApiOperation(value = "latlonid")
+    @PutMapping("/pvp/movel/{id}/{lid}")
+    @ResponseStatus(HttpStatus.OK)
+    public Response move(
+            @PathVariable Long id,
+            @PathVariable Long lid
+    ) throws InterruptedException {
+
+        return Response.success(jalkingService.updateSeperate(id, lid));
+    }
+
 }
