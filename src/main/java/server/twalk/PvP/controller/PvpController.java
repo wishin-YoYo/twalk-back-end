@@ -113,7 +113,7 @@ public class PvpController {
     }
 
     @ApiOperation(value = "latlonid")
-    @PutMapping("/pvp/movel/{id}")
+    @PutMapping("/pvp/movel/{id}/{lid}")
     @ResponseStatus(HttpStatus.OK)
     public Response move(
             @PathVariable Long id,
