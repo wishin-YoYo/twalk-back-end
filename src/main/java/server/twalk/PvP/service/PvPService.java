@@ -186,13 +186,18 @@ public class PvPService {
                 mover.getLatLonPair().getLat(), mover.getLatLonPair().getLon(),
                 req.getTime()
         );
-
+        List<Long> ids = new ArrayList<>();
         while ( time < moveList.size() ){
-            Thread.sleep(1000); // 1초마다 이동한다.
             LatLonPair latLonPair = latLonPairRepository.save(moveList.get(time));
+            ids.add(latLonPair.getId());
+        }
+        time = 0;
+        while ( time < ids.size() ){
+            Thread.sleep(1000); // 1초마다 이동한다.
+            LatLonPair latLonPair = latLonPairRepository.findById(ids.get(time))
+                    .orElseThrow(LatLonPairNotFoundException::new);
             mover.updateMyLocation(latLonPair);
             memberRepository.latLonPairUpdate(latLonPair, mover.getId() );
-
             System.out.println("현재 시간 : " + LocalTime.now() + "현재 user 위치 : " + mover.getLatLonPair().getId() + "user 이동 몇번째 ? "+time +"\n");
             time++;
         }
