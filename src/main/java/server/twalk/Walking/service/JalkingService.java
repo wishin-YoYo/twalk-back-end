@@ -161,19 +161,8 @@ public class JalkingService {
     @Transactional
     public List<LatLonPairDto> move(Long pvpId) throws InterruptedException {
         Jalking pvp = jalkingRepository.findById(pvpId).orElseThrow(PvpNotFoundException::new);
-        Member mover = null;
-        Member notMover = null;
-        int time = 0; // 일정 시간동안 돌 것
-        LatLonPair targetLocation = notMover.getLatLonPair();
-        if(pvp.getReceiver().getId().equals(1L)){
-            mover = pvp.getRequester();
-        }else{
-            mover = pvp.getReceiver();
-        }
-
         Thread.sleep(20000); // 20초 안에 내가 10번 하기
-        end(pvpId); // pvp 종료되고 mover 가 승리자가 된다.
-        //System.out.println(mover.getWins() + " 이긴 애" + mover.getId());
+        end(pvpId);
         return LatLonPairDto.toDtoList(new ArrayList<>());
     }
 
