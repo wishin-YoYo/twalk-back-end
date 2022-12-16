@@ -171,24 +171,10 @@ public class JalkingService {
             mover = pvp.getReceiver();
         }
 
-        List<LatLonPair> moveList = interiorDivision(
-                targetLocation.getLat(), targetLocation.getLon(),
-                mover.getLatLonPair().getLat(), mover.getLatLonPair().getLon(),
-                20
-        );
-        List<Long> ids = new ArrayList<>();
-        while ( time < moveList.size() ){
-            LatLonPair latLonPair = latLonPairRepository.save(moveList.get(time));
-            ids.add(latLonPair.getId());
-            time++;
-        }
-        time = 0;
         Thread.sleep(20000); // 20초 안에 내가 10번 하기
-        moveList.add(new LatLonPair(targetLocation.getLat(), targetLocation.getLon()));
-        mover.updateMyLocation(new LatLonPair(targetLocation.getLat(), targetLocation.getLon()));
         end(pvpId); // pvp 종료되고 mover 가 승리자가 된다.
         //System.out.println(mover.getWins() + " 이긴 애" + mover.getId());
-        return LatLonPairDto.toDtoList(moveList);
+        return LatLonPairDto.toDtoList(new ArrayList<>());
     }
 
     @Transactional

@@ -105,11 +105,10 @@ public class PvpController {
     @PutMapping("/pvp/move/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Response move(
-            @PathVariable Long id,
-            @Valid @ModelAttribute PvpMoveReq req
+            @PathVariable Long id
     ) throws InterruptedException {
 
-        return Response.success(pvpService.move(id, req));
+        return Response.success(pvpService.move(id ));
     }
 
     @ApiOperation(value = "latlonid")
