@@ -225,12 +225,12 @@ public class PvPService {
 //            }
 //    }
 
-    @Transactional
+
     public Long updateSeperate(Long pvpId, Long lid) throws InterruptedException {
         LatLonPair latLonPair = latLonPairRepository.findById(lid).orElseThrow(LatLonPairNotFoundException::new);
         PvpMatch pvp = pvpMatchRepository.findById(pvpId).orElseThrow(PvpNotFoundException::new);
-        Member mover = pvp.getRequester();
-//        mover.updateMyLocation(latLonPair);
+        Member mover = pvp.getReceiver();
+        mover.updateMyLocation(latLonPair);
         memberRepository.latLonPairUpdate(latLonPair, mover.getId());
         return pvpId;
     }
